@@ -29,6 +29,30 @@ const continentMap = {
     'Egypt': 'Africa', 'South Africa': 'Africa', 'Mali': 'Africa', 'Madagascar': 'Africa', 'Rhodesia': 'Africa'
 };
 
+const awardWinners = {
+    'Wire Fox Terrier': '15x Westminster Best in Show',
+    'Scottish Terrier': '8x Westminster Best in Show',
+    'English Springer Spaniel': '6x Westminster Best in Show',
+    'Airedale Terrier': '4x Westminster Best in Show',
+    'Boxer': '4x Westminster Best in Show',
+    'Doberman Pinscher': '4x Westminster Best in Show',
+    'Pekingese': '4x Westminster Best in Show',
+    'Sealyham Terrier': '4x Westminster Best in Show',
+    'Poodle (Standard)': '4x Westminster Best in Show',
+    'Golden Retriever': 'AKC Top Popularity Award',
+    'Labrador Retriever': 'AKC #1 Registered Breed (30+ Years)',
+    'German Shepherd Dog': 'AKC Most Intelligent Working Dog'
+};
+
+const traitMapping = {
+    'Hound': { likes: ['Scent tracking', 'Long walks', 'Open fields'], dislikes: ['Being confined', 'Loud baths'], caution: 'May follow a scent and wander off. High baying/howling potential.' },
+    'Retrieving': { likes: ['Swimming', 'Fetching', 'Treats'], dislikes: ['Isolation', 'Hot weather'], caution: 'Needs significant exercise. Can be prone to obesity if not active.' },
+    'Terrier': { likes: ['Digging', 'Chasing toys', 'Mental puzzles'], dislikes: ['Other small pets', 'Being ignored'], caution: 'High prey drive. Can be feisty and vocal.' },
+    'Working': { likes: ['Having a job', 'Cold weather', 'Protection training'], dislikes: ['Inactivity', 'Strangers'], caution: 'Large and powerful. Requires strict training and socialization.' },
+    'Toy': { likes: ['Laps', 'Soft toys', 'Indoor warmth'], dislikes: ['Rough handling', 'Cold drafts'], caution: 'Fragile and can be prone to "small dog syndrome" if pampered.' },
+    'Herding': { likes: ['Running', 'Agility', 'Chasing'], dislikes: ['Stagnation', 'Chaotic environments'], caution: 'May try to herd children or other pets by nipping at heels.' }
+};
+
 const breedColorMap = {
     'Labrador Retriever': 'golden', 'German Shepherd': 'black', 'Golden Retriever': 'golden', 'French Bulldog': 'white', 'Beagle': 'tan',
     'Poodle': 'white', 'Rottweiler': 'black', 'Dachshund': 'brown', 'Siberian Husky': 'grey', 'Chihuahua': 'tan',
@@ -38,16 +62,10 @@ const breedColorMap = {
 // Intersection Observer for Carousel Active State
 const carouselObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        } else {
-            entry.target.classList.remove('active');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('active');
+        else entry.target.classList.remove('active');
     });
-}, {
-    root: null,
-    threshold: 0.6
-});
+}, { root: null, threshold: 0.6 });
 
 // Initialize
 async function init() {
@@ -74,10 +92,7 @@ async function loadBreeds() {
             const origin = breed.origin || breed.country_code || 'Unknown';
             let continent = 'Other';
             for (const [key, value] of Object.entries(continentMap)) {
-                if (origin.includes(key)) {
-                    continent = value;
-                    break;
-                }
+                if (origin.includes(key)) { continent = value; break; }
             }
 
             let size = 'Medium';
@@ -92,6 +107,10 @@ async function loadBreeds() {
             if (color === 'various' && breed.name.toLowerCase().includes('white')) color = 'white';
             if (color === 'various' && breed.name.toLowerCase().includes('black')) color = 'black';
             if (color === 'various' && breed.name.toLowerCase().includes('golden')) color = 'golden';
+
+            // New Mappings
+            const award = awardWinners[breed.name] || (featured ? 'Multiple Performance Titles' : 'Breed Championship Lineage');
+            const traitInfo = traitMapping[breed.breed_group] || traitMapping['Working'];
 
             return {
                 id: breed.id.toString(),
@@ -108,6 +127,10 @@ async function loadBreeds() {
                 price: priceRangeStr,
                 priceNum: priceAvg,
                 color: color,
+                award: award,
+                likes: traitInfo.likes,
+                dislikes: traitInfo.dislikes,
+                caution: traitInfo.caution,
                 facts: featured ? featured.facts : [`Originally bred for: ${breed.bred_for || 'Companionship'}`, `Breed Group: ${breed.breed_group || 'Diverse'}`, `Origin: ${origin}`],
                 abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
                 cons: featured ? featured.cons : (challenges.length > 0 ? challenges : ['Needs regular exercise', 'Requires training'])
@@ -116,7 +139,7 @@ async function loadBreeds() {
 
         featuredBreeds.forEach(fb => {
             if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
-                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan' });
+                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.' });
             }
         });
     } catch (error) {
@@ -188,11 +211,9 @@ function renderCurrentView() {
     displayContainer.scrollTo(0, 0);
     carouselNav.style.display = currentView === 'carousel' ? 'flex' : 'none';
 
-    if (currentView === 'grid') {
-        renderGrid();
-    } else if (currentView === 'carousel') {
-        renderCarousel();
-    } else if (currentView === 'detail') {
+    if (currentView === 'grid') renderGrid();
+    else if (currentView === 'carousel') renderCarousel();
+    else if (currentView === 'detail') {
         carouselNav.style.display = 'none';
         renderDetail();
     }
@@ -200,56 +221,25 @@ function renderCurrentView() {
 
 function renderGrid() {
     const groupBy = groupSelect.value;
-    
     if (groupBy === 'none') {
-        displayContainer.innerHTML = `
-            <div class="grid-container">
-                ${filteredBreeds.map(breed => renderCard(breed, 'grid')).join('')}
-            </div>
-        `;
+        displayContainer.innerHTML = `<div class="grid-container">${filteredBreeds.map(breed => renderCard(breed, 'grid')).join('')}</div>`;
     } else {
         const groups = groupBreeds(groupBy);
-        displayContainer.innerHTML = `
-            <div class="grid-container">
-                ${Object.keys(groups).sort().map(groupKey => `
-                    <div class="group-header">${groupKey}</div>
-                    ${groups[groupKey].map(breed => renderCard(breed, 'grid')).join('')}
-                `).join('')}
-            </div>
-        `;
+        displayContainer.innerHTML = `<div class="grid-container">${Object.keys(groups).sort().map(groupKey => `<div class="group-header">${groupKey}</div>${groups[groupKey].map(breed => renderCard(breed, 'grid')).join('')}`).join('')}</div>`;
     }
     attachItemListeners('.breed-card');
 }
 
 function renderCarousel() {
     const groupBy = groupSelect.value;
-
     if (groupBy === 'none') {
-        displayContainer.innerHTML = `
-            <div class="carousel-wrapper">
-                ${filteredBreeds.map(breed => renderCard(breed, 'carousel')).join('')}
-            </div>
-        `;
+        displayContainer.innerHTML = `<div class="carousel-wrapper">${filteredBreeds.map(breed => renderCard(breed, 'carousel')).join('')}</div>`;
     } else {
         const groups = groupBreeds(groupBy);
-        displayContainer.innerHTML = `
-            <div class="carousel-wrapper grouped">
-                ${Object.keys(groups).sort().map(groupKey => `
-                    <div class="carousel-group">
-                        <div class="carousel-group-title">${groupKey}</div>
-                        <div class="carousel-wrapper">
-                            ${groups[groupKey].map(breed => renderCard(breed, 'carousel')).join('')}
-                        </div>
-                    </div>
-                `).join('')}
-            </div>
-        `;
+        displayContainer.innerHTML = `<div class="carousel-wrapper grouped">${Object.keys(groups).sort().map(groupKey => `<div class="carousel-group"><div class="carousel-group-title">${groupKey}</div><div class="carousel-wrapper">${groups[groupKey].map(breed => renderCard(breed, 'carousel')).join('')}</div></div>`).join('')}</div>`;
     }
-    
-    // Attach observer to carousel items
     const items = displayContainer.querySelectorAll('.carousel-item');
     items.forEach(item => carouselObserver.observe(item));
-    
     attachItemListeners('.carousel-item');
 }
 
@@ -264,9 +254,11 @@ function groupBreeds(key) {
 }
 
 function renderCard(breed, type) {
+    const awardBadge = breed.award && !breed.award.includes('Lineage') ? `<div class="award-badge"><i class="fas fa-trophy"></i> ${breed.award}</div>` : '';
     if (type === 'grid') {
         return `
             <div class="breed-card" data-id="${breed.id}">
+                ${awardBadge}
                 <div class="card-image">
                     <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                 </div>
@@ -279,6 +271,7 @@ function renderCard(breed, type) {
     } else {
         return `
             <div class="carousel-item" data-id="${breed.id}">
+                ${awardBadge}
                 <div class="image-container">
                     <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                 </div>
@@ -306,6 +299,7 @@ function renderDetail() {
                 </div>
                 <div class="hero-content">
                     <h1>${breed.name}</h1>
+                    ${breed.award ? `<div class="detail-award"><i class="fas fa-trophy"></i> ${breed.award}</div>` : ''}
                     <div class="stats-grid">
                         <span class="stat-badge"><i class="fas fa-history"></i> ${breed.lifespan}</span>
                         <span class="stat-badge"><i class="fas fa-globe"></i> ${breed.continent}</span>
@@ -315,24 +309,36 @@ function renderDetail() {
                     </div>
                     <div class="tabs">
                         <button class="tab-btn active" data-tab="facts">Facts</button>
-                        <button class="tab-btn" data-tab="abilities">Abilities</button>
-                        <button class="tab-btn" data-tab="cons">Challenges</button>
+                        <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
+                        <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
                     </div>
                     <div class="tab-container">
                         <div id="facts" class="tab-content active">
                             <ul class="info-list">
                                 ${breed.facts.map(fact => `<li>${fact}</li>`).join('')}
+                                <li><strong>Abilities:</strong> ${breed.abilities.join(', ')}</li>
                             </ul>
                         </div>
-                        <div id="abilities" class="tab-content">
-                            <ul class="info-list">
-                                ${breed.abilities.map(ability => `<li>${ability}</li>`).join('')}
-                            </ul>
+                        <div id="personality" class="tab-content">
+                            <div class="personality-split">
+                                <div class="likes">
+                                    <h4><i class="fas fa-heart"></i> Likes</h4>
+                                    <ul>${breed.likes.map(l => `<li>${l}</li>`).join('')}</ul>
+                                </div>
+                                <div class="dislikes">
+                                    <h4><i class="fas fa-thumbs-down"></i> Dislikes</h4>
+                                    <ul>${breed.dislikes.map(d => `<li>${d}</li>`).join('')}</ul>
+                                </div>
+                            </div>
                         </div>
-                        <div id="cons" class="tab-content">
-                            <ul class="info-list">
-                                ${breed.cons.map(con => `<li>${con}</li>`).join('')}
-                            </ul>
+                        <div id="caution" class="tab-content">
+                            <div class="caution-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>${breed.caution}</p>
+                                <ul class="info-list">
+                                    ${breed.cons.map(con => `<li>${con}</li>`).join('')}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -369,16 +375,12 @@ function setupEventListeners() {
     document.querySelectorAll('.life-filter').forEach(cb => cb.addEventListener('change', applyFilters));
 
     gridBtn.addEventListener('click', () => {
-        currentView = 'grid';
-        gridBtn.classList.add('active');
-        carouselBtn.classList.remove('active');
+        currentView = 'grid'; gridBtn.classList.add('active'); carouselBtn.classList.remove('active');
         renderCurrentView();
     });
 
     carouselBtn.addEventListener('click', () => {
-        currentView = 'carousel';
-        carouselBtn.classList.add('active');
-        gridBtn.classList.remove('active');
+        currentView = 'carousel'; carouselBtn.classList.add('active'); gridBtn.classList.remove('active');
         renderCurrentView();
     });
 
@@ -392,14 +394,10 @@ function setupEventListeners() {
         if (wrapper) wrapper.scrollBy({ left: 500, behavior: 'smooth' });
     });
 
-    // Mobile Toggle
     document.addEventListener('click', (e) => {
         const toggle = e.target.closest('#mobile-toggle');
-        if (toggle) {
-            sidebar.classList.toggle('open');
-        } else if (!e.target.closest('#sidebar') && sidebar.classList.contains('open')) {
-            sidebar.classList.remove('open');
-        }
+        if (toggle) sidebar.classList.toggle('open');
+        else if (!e.target.closest('#sidebar') && sidebar.classList.contains('open')) sidebar.classList.remove('open');
     });
 
     breedList.addEventListener('click', (e) => {
