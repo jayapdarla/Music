@@ -2,7 +2,7 @@ import { dogBreeds as featuredBreeds } from './dogData.js';
 
 let allBreeds = [];
 let filteredBreeds = [];
-let currentView = 'grid'; // 'grid', 'carousel', 'detail'
+let currentView = 'grid'; // 'grid' or 'detail'
 let selectedBreedId = null;
 
 const displayContainer = document.getElementById('display-container');
@@ -12,12 +12,7 @@ const sortSelect = document.getElementById('sort-select');
 const groupSelect = document.getElementById('group-select');
 const continentFilter = document.getElementById('continent-filter');
 const colorFilter = document.getElementById('color-filter');
-const gridBtn = document.getElementById('grid-view-btn');
-const carouselBtn = document.getElementById('carousel-view-btn');
 const sidebar = document.getElementById('sidebar');
-const carouselNav = document.getElementById('carousel-nav');
-const prevBtn = document.getElementById('prev-btn');
-const nextBtn = document.getElementById('next-btn');
 
 const positiveTraits = ['Friendly', 'Alert', 'Intelligent', 'Courageous', 'Loyal', 'Energetic', 'Playful', 'Obedient', 'Protective', 'Trainable', 'Active', 'Gentle', 'Confident', 'Brave', 'Responsive', 'Receptive', 'Faithful', 'Composed', 'Reliable', 'Fearless', 'Self-assured', 'Eager', 'Good-natured', 'Affectionate', 'Spirited', 'Even Tempered', 'Joyful', 'Happy', 'Amiable', 'Dutiful', 'Responsible', 'Loving', 'Patient', 'Kind', 'Devoted', 'Sweet-Tempered', 'Companionable', 'Trusting'];
 
@@ -58,32 +53,6 @@ const breedColorMap = {
     'Poodle': 'white', 'Rottweiler': 'black', 'Dachshund': 'brown', 'Siberian Husky': 'grey', 'Chihuahua': 'tan',
     'Great Dane': 'grey', 'Doberman Pinscher': 'black', 'Boxer': 'brown', 'Shih Tzu': 'white', 'Pug': 'tan'
 };
-
-// Improved Intersection Observer for Carousel
-const carouselObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        const item = entry.target;
-        if (entry.isIntersecting) {
-            updateItemTransform(item);
-        }
-    });
-}, { root: null, threshold: [0, 0.5, 1] });
-
-function updateItemTransform(item) {
-    const rect = item.getBoundingClientRect();
-    const center = window.innerWidth / 2;
-    const itemCenter = rect.left + rect.width / 2;
-    const distance = itemCenter - center;
-    const absDistance = Math.abs(distance);
-    
-    if (absDistance < rect.width / 2) {
-        item.classList.add('active');
-    } else {
-        item.classList.remove('active');
-        const rotation = distance > 0 ? -20 : 20;
-        item.style.transform = `scale(0.85) rotateY(${rotation}deg)`;
-    }
-}
 
 // Initialize
 async function init() {
@@ -226,47 +195,19 @@ function renderSidebar(breeds = filteredBreeds) {
 
 function renderCurrentView() {
     displayContainer.scrollTo(0, 0);
-    carouselNav.style.display = currentView === 'carousel' ? 'flex' : 'none';
-
     if (currentView === 'grid') renderGrid();
-    else if (currentView === 'carousel') renderCarousel();
-    else if (currentView === 'detail') {
-        carouselNav.style.display = 'none';
-        renderDetail();
-    }
+    else if (currentView === 'detail') renderDetail();
 }
 
 function renderGrid() {
     const groupBy = groupSelect.value;
     if (groupBy === 'none') {
-        displayContainer.innerHTML = `<div class="grid-container">${filteredBreeds.map(breed => renderCard(breed, 'grid')).join('')}</div>`;
+        displayContainer.innerHTML = `<div class="grid-container">${filteredBreeds.map(breed => renderCard(breed)).join('')}</div>`;
     } else {
         const groups = groupBreeds(groupBy);
-        displayContainer.innerHTML = `<div class="grid-container">${Object.keys(groups).sort().map(groupKey => `<div class="group-header">${groupKey}</div>${groups[groupKey].map(breed => renderCard(breed, 'grid')).join('')}`).join('')}</div>`;
+        displayContainer.innerHTML = `<div class="grid-container">${Object.keys(groups).sort().map(groupKey => `<div class="group-header">${groupKey}</div>${groups[groupKey].map(breed => renderCard(breed)).join('')}`).join('')}</div>`;
     }
     attachItemListeners('.breed-card');
-}
-
-function renderCarousel() {
-    const groupBy = groupSelect.value;
-    if (groupBy === 'none') {
-        displayContainer.innerHTML = `<div class="carousel-wrapper single-carousel">${filteredBreeds.map(breed => renderCard(breed, 'carousel')).join('')}</div>`;
-    } else {
-        const groups = groupBreeds(groupBy);
-        displayContainer.innerHTML = `<div class="carousel-groups-container">${Object.keys(groups).sort().map(groupKey => `<div class="carousel-group"><div class="carousel-group-title">${groupKey}</div><div class="carousel-wrapper">${groups[groupKey].map(breed => renderCard(breed, 'carousel')).join('')}</div></div>`).join('')}</div>`;
-    }
-    
-    const items = displayContainer.querySelectorAll('.carousel-item');
-    items.forEach(item => carouselObserver.observe(item));
-
-    // Listen for scroll events to update 3D transforms
-    displayContainer.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
-        wrapper.addEventListener('scroll', () => {
-            wrapper.querySelectorAll('.carousel-item').forEach(item => updateItemTransform(item));
-        });
-    });
-
-    attachItemListeners('.carousel-item');
 }
 
 function groupBreeds(key) {
@@ -279,35 +220,20 @@ function groupBreeds(key) {
     return groups;
 }
 
-function renderCard(breed, type) {
+function renderCard(breed) {
     const awardBadge = breed.award && !breed.award.includes('Lineage') ? `<div class="award-badge"><i class="fas fa-trophy"></i> ${breed.award}</div>` : '';
-    if (type === 'grid') {
-        return `
-            <div class="breed-card" data-id="${breed.id}">
-                ${awardBadge}
-                <div class="card-image">
-                    <img src="${breed.image}" alt="${breed.name}" loading="lazy">
-                </div>
-                <div class="card-info">
-                    <h3>${breed.name}</h3>
-                    <p>${breed.continent} | ${breed.size}</p>
-                </div>
+    return `
+        <div class="breed-card" data-id="${breed.id}">
+            ${awardBadge}
+            <div class="card-image">
+                <img src="${breed.image}" alt="${breed.name}" loading="lazy">
             </div>
-        `;
-    } else {
-        return `
-            <div class="carousel-item" data-id="${breed.id}">
-                ${awardBadge}
-                <div class="image-container">
-                    <img src="${breed.image}" alt="${breed.name}" loading="lazy">
-                </div>
-                <div class="info-overlay">
-                    <h3>${breed.name}</h3>
-                    <p>${breed.continent} | ${breed.lifespan}</p>
-                </div>
+            <div class="card-info">
+                <h3>${breed.name}</h3>
+                <p>${breed.continent} | ${breed.size}</p>
             </div>
-        `;
-    }
+        </div>
+    `;
 }
 
 function renderDetail() {
@@ -317,7 +243,7 @@ function renderDetail() {
     displayContainer.innerHTML = `
         <div class="detail-view">
             <button class="back-btn" id="back-to-list">
-                <i class="fas fa-arrow-left"></i> Back to ${gridBtn.classList.contains('active') ? 'Grid' : 'Carousel'}
+                <i class="fas fa-arrow-left"></i> Back to Gallery
             </button>
             <div class="hero-section">
                 <div class="hero-image">
@@ -373,7 +299,7 @@ function renderDetail() {
     `;
 
     document.getElementById('back-to-list').addEventListener('click', () => {
-        currentView = gridBtn.classList.contains('active') ? 'grid' : 'carousel';
+        currentView = 'grid';
         renderCurrentView();
     });
 
@@ -399,27 +325,6 @@ function setupEventListeners() {
     colorFilter.addEventListener('change', applyFilters);
     document.querySelectorAll('.size-filter').forEach(cb => cb.addEventListener('change', applyFilters));
     document.querySelectorAll('.life-filter').forEach(cb => cb.addEventListener('change', applyFilters));
-
-    gridBtn.addEventListener('click', () => {
-        currentView = 'grid'; gridBtn.classList.add('active'); carouselBtn.classList.remove('active');
-        renderCurrentView();
-    });
-
-    carouselBtn.addEventListener('click', () => {
-        currentView = 'carousel'; carouselBtn.classList.add('active'); gridBtn.classList.remove('active');
-        renderCurrentView();
-    });
-
-    prevBtn.addEventListener('click', () => {
-        const wrappers = displayContainer.querySelectorAll('.carousel-wrapper');
-        // Find the wrapper that is most visible or has the active element
-        wrappers.forEach(w => w.scrollBy({ left: -400, behavior: 'smooth' }));
-    });
-
-    nextBtn.addEventListener('click', () => {
-        const wrappers = displayContainer.querySelectorAll('.carousel-wrapper');
-        wrappers.forEach(w => w.scrollBy({ left: 400, behavior: 'smooth' }));
-    });
 
     document.addEventListener('click', (e) => {
         const toggle = e.target.closest('#mobile-toggle');
