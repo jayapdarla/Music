@@ -59,13 +59,25 @@ const breedColorMap = {
     'Great Dane': 'grey', 'Doberman Pinscher': 'black', 'Boxer': 'brown', 'Shih Tzu': 'white', 'Pug': 'tan'
 };
 
-// Intersection Observer for Carousel Active State
+// Intersection Observer for Carousel Active State & 3D Effect
 const carouselObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('active');
-        else entry.target.classList.remove('active');
+        const item = entry.target;
+        const rect = item.getBoundingClientRect();
+        const center = window.innerWidth / 2;
+        const itemCenter = rect.left + rect.width / 2;
+        const diff = itemCenter - center;
+
+        if (entry.isIntersecting && Math.abs(diff) < rect.width / 2) {
+            item.classList.add('active');
+            item.style.transform = `scale(1.2) translateZ(100px)`;
+        } else {
+            item.classList.remove('active');
+            const rotation = diff > 0 ? -25 : 25;
+            item.style.transform = `scale(0.8) rotateY(${rotation}deg)`;
+        }
     });
-}, { root: null, threshold: 0.6 });
+}, { root: null, threshold: 0.1 });
 
 // Initialize
 async function init() {
@@ -108,13 +120,12 @@ async function loadBreeds() {
             if (color === 'various' && breed.name.toLowerCase().includes('black')) color = 'black';
             if (color === 'various' && breed.name.toLowerCase().includes('golden')) color = 'golden';
 
-            // New Mappings
             const award = awardWinners[breed.name] || (featured ? 'Multiple Performance Titles' : 'Breed Championship Lineage');
             const traitInfo = traitMapping[breed.breed_group] || traitMapping['Working'];
 
             return {
                 id: breed.id.toString(),
-                name: breed.name,
+                name: breed.name || 'Unknown Breed',
                 image: breed.image.url,
                 lifespan: breed.life_span,
                 lifeNum: lifeAvg,
@@ -386,12 +397,12 @@ function setupEventListeners() {
 
     prevBtn.addEventListener('click', () => {
         const wrapper = displayContainer.querySelector('.carousel-wrapper');
-        if (wrapper) wrapper.scrollBy({ left: -500, behavior: 'smooth' });
+        if (wrapper) wrapper.scrollBy({ left: -400, behavior: 'smooth' });
     });
 
     nextBtn.addEventListener('click', () => {
         const wrapper = displayContainer.querySelector('.carousel-wrapper');
-        if (wrapper) wrapper.scrollBy({ left: 500, behavior: 'smooth' });
+        if (wrapper) wrapper.scrollBy({ left: 400, behavior: 'smooth' });
     });
 
     document.addEventListener('click', (e) => {
