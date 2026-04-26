@@ -334,6 +334,102 @@ const dogBreeds = [
             'Can be very vocal and bossy.',
             'Prone to obesity if overfed.'
         ]
+    },
+    {
+        id: 'australian-shepherd',
+        name: 'Australian Shepherd',
+        image: 'https://images.unsplash.com/photo-1551717743-49959800b1f6?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Despite the name, they were developed in the US.',
+            'Known for their striking "merle" coat patterns.',
+            'Incredibly intelligent and versatile workers.',
+            'Often have two different colored eyes (heterochromia).'
+        ],
+        abilities: [
+            'Exceptional herding and stock-driving.',
+            'Top-tier agility and frisbee competitors.',
+            'Excellent search and rescue capabilities.',
+            'Highly effective service and therapy work.'
+        ],
+        cons: [
+            'Extremely high energy and drive.',
+            'Can become destructive if not kept busy.',
+            'Prone to chasing cars and children.',
+            'Shed heavily and require regular brushing.'
+        ]
+    },
+    {
+        id: 'cavalier',
+        name: 'Cavalier King Charles Spaniel',
+        image: 'https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?auto=format&fit=crop&q=80&w=800',
+        lifespan: '9–14 years',
+        facts: [
+            'Named after King Charles II of Great Britain.',
+            'One of the largest toy breeds.',
+            'Known as the "Ultimate Lap Dog."',
+            'Extremely affectionate and gentle nature.'
+        ],
+        abilities: [
+            'Exceptional comfort and therapy work.',
+            'Highly adaptable to various lifestyles.',
+            'Excellent companions for children.',
+            'Natural performers in obedience trials.'
+        ],
+        cons: [
+            'Highly prone to heart issues (MVD).',
+            'Suffer from severe separation anxiety.',
+            'Require regular grooming of their long ears.',
+            'Low tolerance for being left alone.'
+        ]
+    },
+    {
+        id: 'saint-bernard',
+        name: 'Saint Bernard',
+        image: 'https://images.unsplash.com/photo-1589941013453-ec89f33b5e95?auto=format&fit=crop&q=80&w=800',
+        lifespan: '8–10 years',
+        facts: [
+            'Famous for mountain rescues in the Swiss Alps.',
+            'One of the heaviest and largest dog breeds.',
+            'Known for the iconic (though mythical) brandy cask.',
+            'Very patient and "nanny-like" with children.'
+        ],
+        abilities: [
+            'Exceptional scent tracking in snow.',
+            'Great endurance for pulling heavy loads.',
+            'Natural protectors and guardians.',
+            'Calm and comforting therapy presence.'
+        ],
+        cons: [
+            'Massive amount of drool and shedding.',
+            'Intolerant of high heat and humidity.',
+            'Short lifespan and high medical costs.',
+            'Require a lot of space and large-scale gear.'
+        ]
+    },
+    {
+        id: 'shiba-inu',
+        name: 'Shiba Inu',
+        image: 'https://images.unsplash.com/photo-1583512603805-3cc6b41f3edb?auto=format&fit=crop&q=80&w=800',
+        lifespan: '13–16 years',
+        facts: [
+            'Ancient breed from Japan with fox-like features.',
+            'Known for the "Shiba Scream" when upset.',
+            'Highly independent and cat-like in personality.',
+            'Extremely clean and easy to house-train.'
+        ],
+        abilities: [
+            'Excellent hunters in rugged terrain.',
+            'Incredible agility and quick reflexes.',
+            'Vigilant and bold watchdogs.',
+            'High level of focus and cleverness.'
+        ],
+        cons: [
+            'Notoriously stubborn and hard to train.',
+            'High prey drive (not safe off-leash).',
+            'Can be wary and aloof with strangers.',
+            'Heavy shedders (twice-yearly blow-outs).'
+        ]
     }
 ];
 
