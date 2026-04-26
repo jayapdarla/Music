@@ -1,4 +1,4 @@
-const dogBreeds = [
+export const dogBreeds = [
     {
         id: 'golden-retriever',
         name: 'Golden Retriever',
