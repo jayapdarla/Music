@@ -6,20 +6,46 @@
     <title>Canine Encyclopedia | Explore Dog Breeds</title>
     <meta name="description" content="Discover facts, abilities, lifespans, and challenges of popular dog breeds in this interactive encyclopedia.">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <aside>
-        <div class="logo">
-            <h2>Canine Encyclopedia</h2>
-        </div>
-        <ul class="breed-list">
-            <!-- Populated via JS -->
-        </ul>
-    </aside>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>Breeds</h2>
+                <button class="mobile-toggle" id="mobile-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="search-box">
+                <input type="text" id="breed-search" placeholder="Search breeds...">
+            </div>
+            <ul id="breed-list" class="breed-list">
+                <!-- Breeds will be injected here -->
+            </ul>
+        </aside>
 
-    <main>
-        <!-- Content dynamically rendered via JS -->
-    </main>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-nav">
+                <div class="logo">
+                    <i class="fas fa-paw"></i>
+                    <span>Canine Encyclopedia</span>
+                </div>
+                <div class="view-controls">
+                    <button id="grid-view-btn" class="view-btn active" title="Grid View">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button id="carousel-view-btn" class="view-btn" title="Carousel View">
+                        <i class="fas fa-images"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div id="display-container" class="display-container">
+                <!-- Grid, Carousel, or Detail View will be injected here -->
+            </div>
+        </main>
+    </div>
 
     <script type="module" src="script.js"></script>
 </body>
