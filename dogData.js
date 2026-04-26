@@ -430,6 +430,102 @@ const dogBreeds = [
             'Can be wary and aloof with strangers.',
             'Heavy shedders (twice-yearly blow-outs).'
         ]
+    },
+    {
+        id: 'pug',
+        name: 'Pug',
+        image: 'https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Ancient companion breed from China.',
+            'Known for their wrinkled face and curled tail.',
+            'Affectionately called "Multum in Parvo" (much in little).',
+            'Thrive on human companionship and love to nap.'
+        ],
+        abilities: [
+            'Exceptional emotional support companions.',
+            'Naturally social and friendly with everyone.',
+            'Highly adaptable to indoor living.',
+            'Great at entertaining with "clown-like" behavior.'
+        ],
+        cons: [
+            'Prone to breathing and respiratory issues.',
+            'Sensitive to extreme heat and humidity.',
+            'Can be prone to obesity (very food-motivated).',
+            'Heavy shedders despite their short coat.'
+        ]
+    },
+    {
+        id: 'chihuahua',
+        name: 'Chihuahua',
+        image: 'https://images.unsplash.com/photo-1512140417-3770e28f3223?auto=format&fit=crop&q=80&w=800',
+        lifespan: '14–16+ years',
+        facts: [
+            'Named after the Mexican state of Chihuahua.',
+            'One of the smallest and oldest dog breeds.',
+            'Possess a "big dog" personality and attitude.',
+            'Often form an intense bond with one person.'
+        ],
+        abilities: [
+            'Incredibly alert and vocal watchdogs.',
+            'Extremely loyal and devoted companions.',
+            'Highly intelligent and capable of learning tricks.',
+            'Perfect travel companions due to size.'
+        ],
+        cons: [
+            'Can be snappy if not properly socialized.',
+            'Fragile due to their tiny size.',
+            'Prone to dental and heart issues.',
+            'Can be difficult to house-train.'
+        ]
+    },
+    {
+        id: 'pomeranian',
+        name: 'Pomeranian',
+        image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–16 years',
+        facts: [
+            'Descended from large sled-pulling dogs.',
+            'Known for their fluffy double coat and fox-like face.',
+            'Named after the Pomerania region in Europe.',
+            'Incredibly extroverted and lively personality.'
+        ],
+        abilities: [
+            'Quick learners in obedience and trick training.',
+            'Naturally bold and alert watchdogs.',
+            'Highly social and affectionate with family.',
+            'Very active and agile for their size.'
+        ],
+        cons: [
+            'Requires frequent and extensive grooming.',
+            'Prone to excessive barking.',
+            'Fragile and not ideal for very young children.',
+            'Can be prone to tracheal collapse.'
+        ]
+    },
+    {
+        id: 'dalmatian',
+        name: 'Dalmatian',
+        image: 'https://images.unsplash.com/photo-1534351450181-ea9f78427fe8?auto=format&fit=crop&q=80&w=800',
+        lifespan: '11–13 years',
+        facts: [
+            'Famous as "coach dogs" for horse-drawn carriages.',
+            'Born pure white; spots develop as they grow.',
+            'Unique and eye-catching black or liver spots.',
+            'Historically associated with firehouses.'
+        ],
+        abilities: [
+            'Exceptional endurance and running stamina.',
+            'Highly athletic and agile performers.',
+            'Alert and watchful guardians.',
+            'Natural companions for horses and vehicles.'
+        ],
+        cons: [
+            'Extremely high energy requirements.',
+            'High incidence of deafness in the breed.',
+            'Shed heavily year-round.',
+            'Need a lot of mental and physical work.'
+        ]
     }
 ];
 
