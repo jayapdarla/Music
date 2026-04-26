@@ -718,6 +718,102 @@ const dogBreeds = [
             'Skin is delicate and prone to injury.',
             'Can be aloof and shy with strangers.'
         ]
+    },
+    {
+        id: 'cocker-spaniel',
+        name: 'Cocker Spaniel',
+        image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–15 years',
+        facts: [
+            'Originally bred as gun dogs to hunt woodcocks.',
+            'Known for their long, silky ears and "puppy" eyes.',
+            'Extremely affectionate, gentle, and playful.',
+            'Adaptable to both city and country living.'
+        ],
+        abilities: [
+            'Exceptional sense of smell and hunting drive.',
+            'Highly athletic in agility and flyball.',
+            'Excellent emotional support and family dogs.',
+            'Naturally quick learners with positive training.'
+        ],
+        cons: [
+            'Require extensive and regular grooming.',
+            'Highly prone to ear and eye infections.',
+            'Can be prone to separation anxiety.',
+            'Need consistent mental stimulation.'
+        ]
+    },
+    {
+        id: 'berner',
+        name: 'Bernese Mountain Dog',
+        image: 'https://images.unsplash.com/photo-1548658166-136d4f6a7e76?auto=format&fit=crop&q=80&w=800',
+        lifespan: '6–10 years',
+        facts: [
+            'Giant, tri-colored working dogs from Switzerland.',
+            'Bred for herding, cart-pulling, and guarding.',
+            'Known for their calm and affectionate nature.',
+            'Highly patient "nanny dogs" for children.'
+        ],
+        abilities: [
+            'Strong draft dogs for pulling heavy carts.',
+            'Excellent herding and livestock guarding.',
+            'Natural trackers and search-and-rescue dogs.',
+            'Calm and therapeutic presence.'
+        ],
+        cons: [
+            'Very short lifespan (often under 8 years).',
+            'High risk of cancer and joint issues.',
+            'Heavy shedders year-round.',
+            'Require a lot of indoor and outdoor space.'
+        ]
+    },
+    {
+        id: 'weimaraner',
+        name: 'Weimaraner',
+        image: 'https://images.unsplash.com/photo-1599839624912-651a07300bd7?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–13 years',
+        facts: [
+            'Known as the "Gray Ghost" for their sleek coat.',
+            'Bred in Germany for large game hunting.',
+            'Possess striking light-colored eyes.',
+            'Extremely loyal and "velcro" companions.'
+        ],
+        abilities: [
+            'High-speed sprinters with immense stamina.',
+            'Superior hunters and tracking specialists.',
+            'Exceptional running and hiking partners.',
+            'Highly intelligent problem-solvers.'
+        ],
+        cons: [
+            'Suffer from severe separation anxiety.',
+            'High exercise and mental needs.',
+            'Strong prey drive toward small pets.',
+            'Can be destructive if left alone.'
+        ]
+    },
+    {
+        id: 'cattle-dog',
+        name: 'Australian Cattle Dog',
+        image: 'https://images.unsplash.com/photo-1560743173-567a3b5658b1?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–16 years',
+        facts: [
+            'Developed to herd cattle over huge distances.',
+            'Known for their "Blue" or "Red" speckled coats.',
+            'Incredibly tough, smart, and resilient.',
+            'Often called "Heelers" for their herding style.'
+        ],
+        abilities: [
+            'Unmatched stamina and work ethic.',
+            'Highly skilled herders and stock workers.',
+            'Top performers in agility and dog sports.',
+            'Fiercely loyal and protective "shadows."'
+        ],
+        cons: [
+            'Can be nippy (herding instinct).',
+            'Intense energy needs (not for apartments).',
+            'Can be wary and aloof with strangers.',
+            'Require an experienced and active owner.'
+        ]
     }
 ];
 
