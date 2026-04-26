@@ -1,12 +1,15 @@
 import { dogBreeds as featuredBreeds } from './dogData.js';
 
 let allBreeds = [];
+let filteredBreeds = [];
 let currentView = 'grid'; // 'grid', 'carousel', 'detail'
 let selectedBreedId = null;
 
 const displayContainer = document.getElementById('display-container');
 const breedList = document.getElementById('breed-list');
 const searchInput = document.getElementById('breed-search');
+const sortSelect = document.getElementById('sort-select');
+const continentFilter = document.getElementById('continent-filter');
 const gridBtn = document.getElementById('grid-view-btn');
 const carouselBtn = document.getElementById('carousel-view-btn');
 const sidebar = document.getElementById('sidebar');
@@ -14,11 +17,18 @@ const mobileToggle = document.getElementById('mobile-toggle');
 
 const positiveTraits = ['Friendly', 'Alert', 'Intelligent', 'Courageous', 'Loyal', 'Energetic', 'Playful', 'Obedient', 'Protective', 'Trainable', 'Active', 'Gentle', 'Confident', 'Brave', 'Responsive', 'Receptive', 'Faithful', 'Composed', 'Reliable', 'Fearless', 'Self-assured', 'Eager', 'Good-natured', 'Affectionate', 'Spirited', 'Even Tempered', 'Joyful', 'Happy', 'Amiable', 'Dutiful', 'Responsible', 'Loving', 'Patient', 'Kind', 'Devoted', 'Sweet-Tempered', 'Companionable', 'Trusting'];
 
+const continentMap = {
+    'United Kingdom': 'Europe', 'England': 'Europe', 'Scotland': 'Europe', 'Wales': 'Europe', 'Germany': 'Europe', 'France': 'Europe', 'Italy': 'Europe', 'Spain': 'Europe', 'Switzerland': 'Europe', 'Belgium': 'Europe', 'Netherlands': 'Europe', 'Norway': 'Europe', 'Sweden': 'Europe', 'Russia': 'Europe', 'Ireland': 'Europe', 'Hungary': 'Europe', 'Poland': 'Europe', 'Greece': 'Europe', 'Turkey': 'Europe',
+    'USA': 'North America', 'United States': 'North America', 'Canada': 'North America', 'Mexico': 'North America',
+    'Japan': 'Asia', 'China': 'Asia', 'Tibet': 'Asia', 'India': 'Asia', 'Afghanistan': 'Asia', 'Pakistan': 'Asia', 'Iran': 'Asia', 'Siberia': 'Asia', 'Korea': 'Asia', 'Thailand': 'Asia',
+    'Australia': 'Australia',
+    'Egypt': 'Africa', 'South Africa': 'Africa', 'Mali': 'Africa', 'Madagascar': 'Africa', 'Rhodesia': 'Africa'
+};
+
 // Initialize
 async function init() {
     await loadBreeds();
-    renderSidebar();
-    renderCurrentView();
+    applyFilters();
     setupEventListeners();
 }
 
@@ -28,50 +38,104 @@ async function loadBreeds() {
         const rawData = await response.json();
         
         allBreeds = rawData.map(breed => {
-            // Check if we have featured data for this breed
             const featured = featuredBreeds.find(fb => fb.name.toLowerCase() === breed.name.toLowerCase());
-            
-            // Extract abilities and challenges from temperament
             const temperament = breed.temperament ? breed.temperament.split(', ') : [];
             const abilities = temperament.filter(t => positiveTraits.some(p => t.includes(p)));
             const challenges = temperament.filter(t => !positiveTraits.some(p => t.includes(p)));
 
-            // Add some default "bred for" facts
-            const facts = [
-                breed.bred_for ? `Originally bred for: ${breed.bred_for}` : null,
-                breed.breed_group ? `Breed Group: ${breed.breed_group}` : null,
-                breed.origin ? `Origin: ${breed.origin}` : null,
-                featured ? featured.facts[0] : null
-            ].filter(f => f);
+            // Numerical parsing for sorting
+            const lifeAvg = parseRange(breed.life_span);
+            const weightAvg = parseRange(breed.weight.metric);
+            const heightAvg = parseRange(breed.height.metric);
+
+            // Continent Mapping
+            const origin = breed.origin || breed.country_code || 'Unknown';
+            let continent = 'Other';
+            for (const [key, value] of Object.entries(continentMap)) {
+                if (origin.includes(key)) {
+                    continent = value;
+                    break;
+                }
+            }
+
+            // Size Category
+            let size = 'Medium';
+            if (heightAvg < 30) size = 'Small';
+            else if (heightAvg > 60) size = 'Large';
+
+            // Diet & Price (Heuristic)
+            const diet = breed.breed_group === 'Working' || breed.breed_group === 'Herding' ? 'High Performance' : 'Standard Balanced';
+            const price = breed.breed_group === 'Toy' || breed.breed_group === 'Non-Sporting' ? '$800 - $1,500' : '$1,500 - $3,500';
 
             return {
                 id: breed.id.toString(),
                 name: breed.name,
                 image: breed.image.url,
                 lifespan: breed.life_span,
-                facts: featured ? featured.facts : (facts.length > 0 ? facts : ['A versatile and unique breed.']),
+                lifeNum: lifeAvg,
+                weightNum: weightAvg,
+                heightNum: heightAvg,
+                continent: continent,
+                origin: origin,
+                size: size,
+                diet: diet,
+                price: price,
+                facts: featured ? featured.facts : [`Originally bred for: ${breed.bred_for || 'Companionship'}`, `Breed Group: ${breed.breed_group || 'Diverse'}`, `Origin: ${origin}`],
                 abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
                 cons: featured ? featured.cons : (challenges.length > 0 ? challenges : ['Needs regular exercise', 'Requires training'])
             };
         });
 
-        // Ensure featured breeds that might not be in the raw list are included
         featuredBreeds.forEach(fb => {
             if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
-                allBreeds.push({ ...fb, id: `featured-${fb.id}` });
+                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500' });
             }
         });
-
-        allBreeds.sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
         console.error('Error loading breeds:', error);
         allBreeds = featuredBreeds;
     }
 }
 
+function parseRange(str) {
+    if (!str) return 0;
+    const nums = str.match(/\d+/g);
+    if (!nums) return 0;
+    if (nums.length === 1) return parseInt(nums[0]);
+    return (parseInt(nums[0]) + parseInt(nums[1])) / 2;
+}
+
+function applyFilters() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const selectedContinent = continentFilter.value;
+    const selectedSizes = Array.from(document.querySelectorAll('.size-filter:checked')).map(cb => cb.value);
+
+    filteredBreeds = allBreeds.filter(breed => {
+        const matchesSearch = breed.name.toLowerCase().includes(searchTerm);
+        const matchesContinent = selectedContinent === 'all' || breed.continent.toLowerCase().replace(' ', '-') === selectedContinent;
+        const matchesSize = selectedSizes.length === 0 || selectedSizes.includes(breed.size.toLowerCase());
+        return matchesSearch && matchesContinent && matchesSize;
+    });
+
+    sortBreeds();
+    renderSidebar(filteredBreeds);
+    renderCurrentView();
+}
+
+function sortBreeds() {
+    const sortVal = sortSelect.value;
+    filteredBreeds.sort((a, b) => {
+        if (sortVal === 'name-asc') return a.name.localeCompare(b.name);
+        if (sortVal === 'life-desc') return b.lifeNum - a.lifeNum;
+        if (sortVal === 'weight-desc') return b.weightNum - a.weightNum;
+        if (sortVal === 'height-desc') return b.heightNum - a.heightNum;
+        return 0;
+    });
+}
+
 // Rendering
-function renderSidebar(filteredBreeds = allBreeds) {
-    breedList.innerHTML = filteredBreeds.map(breed => `
+function renderSidebar(breeds = filteredBreeds) {
+    breedList.innerHTML = breeds.map(breed => `
         <li class="breed-item ${selectedBreedId === breed.id ? 'active' : ''}" data-id="${breed.id}">
             ${breed.name}
         </li>
@@ -79,7 +143,6 @@ function renderSidebar(filteredBreeds = allBreeds) {
 }
 
 function renderCurrentView() {
-    displayContainer.scrollTo(0, 0);
     if (currentView === 'grid') {
         renderGrid();
     } else if (currentView === 'carousel') {
@@ -92,14 +155,14 @@ function renderCurrentView() {
 function renderGrid() {
     displayContainer.innerHTML = `
         <div class="grid-container">
-            ${allBreeds.map(breed => `
+            ${filteredBreeds.map(breed => `
                 <div class="breed-card" data-id="${breed.id}">
                     <div class="card-image">
                         <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                     </div>
                     <div class="card-info">
                         <h3>${breed.name}</h3>
-                        <p>${breed.lifespan}</p>
+                        <p>${breed.continent} | ${breed.size}</p>
                     </div>
                 </div>
             `).join('')}
@@ -111,14 +174,14 @@ function renderGrid() {
 function renderCarousel() {
     displayContainer.innerHTML = `
         <div class="carousel-wrapper">
-            ${allBreeds.map(breed => `
+            ${filteredBreeds.map(breed => `
                 <div class="carousel-item" data-id="${breed.id}">
                     <div class="image-container">
                         <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                     </div>
                     <div class="info-overlay">
                         <h3>${breed.name}</h3>
-                        <p>${breed.lifespan}</p>
+                        <p>${breed.continent} | ${breed.lifespan}</p>
                     </div>
                 </div>
             `).join('')}
@@ -142,7 +205,12 @@ function renderDetail() {
                 </div>
                 <div class="hero-content">
                     <h1>${breed.name}</h1>
-                    <span class="lifespan-badge"><i class="far fa-clock"></i> Lifespan: ${breed.lifespan}</span>
+                    <div class="stats-grid">
+                        <span class="stat-badge"><i class="fas fa-history"></i> ${breed.lifespan}</span>
+                        <span class="stat-badge"><i class="fas fa-globe"></i> ${breed.continent}</span>
+                        <span class="stat-badge"><i class="fas fa-tag"></i> ${breed.price}</span>
+                        <span class="stat-badge"><i class="fas fa-utensils"></i> ${breed.diet}</span>
+                    </div>
                     <div class="tabs">
                         <button class="tab-btn active" data-tab="facts">Facts</button>
                         <button class="tab-btn" data-tab="abilities">Abilities</button>
@@ -190,11 +258,10 @@ function renderDetail() {
 
 // Event Listeners
 function setupEventListeners() {
-    searchInput.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase();
-        const filtered = allBreeds.filter(b => b.name.toLowerCase().includes(term));
-        renderSidebar(filtered);
-    });
+    searchInput.addEventListener('input', applyFilters);
+    sortSelect.addEventListener('change', applyFilters);
+    continentFilter.addEventListener('change', applyFilters);
+    document.querySelectorAll('.size-filter').forEach(cb => cb.addEventListener('change', applyFilters));
 
     gridBtn.addEventListener('click', () => {
         currentView = 'grid';
