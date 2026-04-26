@@ -142,6 +142,102 @@ const dogBreeds = [
             'Prone to obesity if overfed.',
             'Need a lot of oral stimulation (chewers).'
         ]
+    },
+    {
+        id: 'rottweiler',
+        name: 'Rottweiler',
+        image: 'https://images.unsplash.com/photo-1567171466295-4afa58145227?auto=format&fit=crop&q=80&w=800',
+        lifespan: '8–10 years',
+        facts: [
+            'Originally bred to drive cattle to market.',
+            'One of the oldest herding breeds.',
+            'Calm, confident, and courageous.',
+            'Deeply loyal and protective of their family.'
+        ],
+        abilities: [
+            'Exceptional guarding and protection skills.',
+            'Adept at police and military work.',
+            'Strong search and rescue instincts.',
+            'Surprisingly gentle therapy dogs.'
+        ],
+        cons: [
+            'Can be stubborn and strong-willed.',
+            'Requires extensive early socialization.',
+            'Prone to obesity without exercise.',
+            'Can be wary of strangers if not trained.'
+        ]
+    },
+    {
+        id: 'boxer',
+        name: 'Boxer',
+        image: 'https://images.unsplash.com/photo-1558322394-4d8813ceef8a?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–12 years',
+        facts: [
+            'Known for their "goofy" and playful nature.',
+            'Bred to be versatile working dogs.',
+            'Extremely patient with children.',
+            'Use their front paws for everything, hence the name.'
+        ],
+        abilities: [
+            'Excellent watchdogs and guardians.',
+            'Highly athletic and agile.',
+            'Quick learners in obedience training.',
+            'Natural entertainers and companions.'
+        ],
+        cons: [
+            'Very high energy and boisterous.',
+            'Prone to heart conditions and cancer.',
+            'Can suffer from separation anxiety.',
+            'Known for heavy snoring and drooling.'
+        ]
+    },
+    {
+        id: 'dachshund',
+        name: 'Dachshund',
+        image: 'https://images.unsplash.com/photo-1518378188025-22bd89516ee2?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–16 years',
+        facts: [
+            'Bred in Germany to hunt badgers.',
+            'Known affectionately as "Sausage Dogs."',
+            'Iconic long body and short legs.',
+            'Very brave and often unaware of their small size.'
+        ],
+        abilities: [
+            'Superior scent-tracking capabilities.',
+            'Vigilant and vocal watchdogs.',
+            'Exceptional hunters in tight spaces.',
+            'Highly intelligent and problem-solvers.'
+        ],
+        cons: [
+            'Prone to back problems (IVDD).',
+            'Can be very stubborn to train.',
+            'Known for excessive barking.',
+            'Difficult to house-train.'
+        ]
+    },
+    {
+        id: 'siberian-husky',
+        name: 'Siberian Husky',
+        image: 'https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Bred by the Chukchi people for sled pulling.',
+            'Known for their striking blue or multi-colored eyes.',
+            'Possess a thick, beautiful double coat.',
+            'Very social and friendly with people.'
+        ],
+        abilities: [
+            'Unmatched endurance for long distances.',
+            'Natural-born pack workers.',
+            'Fast and powerful runners.',
+            'Excellent at escaping (master artists).'
+        ],
+        cons: [
+            'Extremely high energy needs.',
+            'Heavy shedders (twice a year "blow-out").',
+            'Strong prey drive and roaming instincts.',
+            'Can be very vocal (howling and "talking").'
+        ]
     }
 ];
 
