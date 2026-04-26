@@ -622,6 +622,102 @@ const dogBreeds = [
             'Shed massive amounts of fur seasonally.',
             'Strong prey drive and prone to roaming.'
         ]
+    },
+    {
+        id: 'samoyed',
+        name: 'Samoyed',
+        image: 'https://images.unsplash.com/photo-1529429617329-8a79c052972d?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–14 years',
+        facts: [
+            'Known for the "Sammy Smile" due to upturned mouth.',
+            'Arctic breed with a thick, pure white double coat.',
+            'Bred to herd reindeer and pull heavy sleds.',
+            'Extremely social and friendly with humans.'
+        ],
+        abilities: [
+            'Superior endurance and strength in cold weather.',
+            'Highly social and affectionate "pack" dogs.',
+            'Naturally clean and low-odor for a dog.',
+            'Excellent family and therapy companions.'
+        ],
+        cons: [
+            'Intense grooming requirements (daily brushing).',
+            'Shed heavily and leave fur everywhere.',
+            'Can be vocal and bark/vocalize a lot.',
+            'Prone to separation anxiety if left alone.'
+        ]
+    },
+    {
+        id: 'basset-hound',
+        name: 'Basset Hound',
+        image: 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–13 years',
+        facts: [
+            'Possess a sense of smell second only to Bloodhounds.',
+            'Instantly recognizable for long ears and sad eyes.',
+            'Low-slung body helps them stay close to scents.',
+            'Known for being laid-back and easy-going.'
+        ],
+        abilities: [
+            'World-class scent-tracking and trailing.',
+            'Extremely patient and good with children.',
+            'Naturally calm and loyal companions.',
+            'Excellent at working in packs.'
+        ],
+        cons: [
+            'Can be very stubborn and hard to train.',
+            'Prone to obesity and back/joint problems.',
+            'Known for loud baying and howling.',
+            'Ears require constant cleaning to avoid infection.'
+        ]
+    },
+    {
+        id: 'bull-terrier',
+        name: 'Bull Terrier',
+        image: 'https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–13 years',
+        facts: [
+            'Unique "egg-shaped" head and triangular eyes.',
+            'Known as the "White Cavalier" for their courage.',
+            'Incredibly energetic, playful, and funny.',
+            'Bred originally as a fighting dog, now a companion.'
+        ],
+        abilities: [
+            'Exceptional strength and athletic agility.',
+            'Highly focused and determined in tasks.',
+            'Natural entertainers and very affectionate.',
+            'Vigilant and protective of their family.'
+        ],
+        cons: [
+            'Can be very stubborn and strong-willed.',
+            'Prone to specific health issues like deafness.',
+            'Require a lot of exercise and mental work.',
+            'May be aggressive toward other pets.'
+        ]
+    },
+    {
+        id: 'greyhound',
+        name: 'Greyhound',
+        image: 'https://images.unsplash.com/photo-1541591419459-0028a496b864?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–14 years',
+        facts: [
+            'The fastest dog breed, reaching 45 mph.',
+            'One of the oldest dog breeds in existence.',
+            'Known as "45mph Couch Potatoes" for laziness.',
+            'Incredibly lean build with very low body fat.'
+        ],
+        abilities: [
+            'Unmatched sprinting speed and acceleration.',
+            'Keen eyesight for spotting movement.',
+            'Very gentle and quiet indoor presence.',
+            'Exceptional athletic elegance.'
+        ],
+        cons: [
+            'Extremely high prey drive (not safe off-leash).',
+            'Very sensitive to cold and heat.',
+            'Skin is delicate and prone to injury.',
+            'Can be aloof and shy with strangers.'
+        ]
     }
 ];
 
