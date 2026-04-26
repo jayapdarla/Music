@@ -12,57 +12,59 @@ const carouselBtn = document.getElementById('carousel-view-btn');
 const sidebar = document.getElementById('sidebar');
 const mobileToggle = document.getElementById('mobile-toggle');
 
+const positiveTraits = ['Friendly', 'Alert', 'Intelligent', 'Courageous', 'Loyal', 'Energetic', 'Playful', 'Obedient', 'Protective', 'Trainable', 'Active', 'Gentle', 'Confident', 'Brave', 'Responsive', 'Receptive', 'Faithful', 'Composed', 'Reliable', 'Fearless', 'Self-assured', 'Eager', 'Good-natured', 'Affectionate', 'Spirited', 'Even Tempered', 'Joyful', 'Happy', 'Amiable', 'Dutiful', 'Responsible', 'Loving', 'Patient', 'Kind', 'Devoted', 'Sweet-Tempered', 'Companionable', 'Trusting'];
+
 // Initialize
 async function init() {
-    await fetchAllBreeds();
+    await loadBreeds();
     renderSidebar();
     renderCurrentView();
     setupEventListeners();
 }
 
-// Fetch all breeds from API
-async function fetchAllBreeds() {
+async function loadBreeds() {
     try {
-        const response = await fetch('https://dogapi.dog/api/v2/breeds');
-        const data = await response.json();
+        const response = await fetch('breeds_raw.json');
+        const rawData = await response.json();
         
-        // Merge API data with featured data
-        allBreeds = await Promise.all(data.data.map(async breed => {
-            const featured = featuredBreeds.find(fb => fb.name.toLowerCase() === breed.attributes.name.toLowerCase());
-            if (featured) return featured;
+        allBreeds = rawData.map(breed => {
+            // Check if we have featured data for this breed
+            const featured = featuredBreeds.find(fb => fb.name.toLowerCase() === breed.name.toLowerCase());
+            
+            // Extract abilities and challenges from temperament
+            const temperament = breed.temperament ? breed.temperament.split(', ') : [];
+            const abilities = temperament.filter(t => positiveTraits.some(p => t.includes(p)));
+            const challenges = temperament.filter(t => !positiveTraits.some(p => t.includes(p)));
 
-            // Fetch dynamic image from Dog CEO API
-            let breedImg = 'https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=800';
-            try {
-                const apiName = breed.attributes.name.toLowerCase().replace(' ', '/');
-                const imgRes = await fetch(`https://dog.ceo/api/breed/${apiName}/images/random`);
-                const imgData = await imgRes.json();
-                if (imgData.status === 'success') breedImg = imgData.message;
-            } catch (e) {
-                console.warn('Image fetch failed for:', breed.attributes.name);
-            }
+            // Add some default "bred for" facts
+            const facts = [
+                breed.bred_for ? `Originally bred for: ${breed.bred_for}` : null,
+                breed.breed_group ? `Breed Group: ${breed.breed_group}` : null,
+                breed.origin ? `Origin: ${breed.origin}` : null,
+                featured ? featured.facts[0] : null
+            ].filter(f => f);
 
             return {
-                id: breed.id,
-                name: breed.attributes.name,
-                image: breedImg,
-                lifespan: `${breed.attributes.life.min}-${breed.attributes.life.max} years`,
-                facts: [breed.attributes.description],
-                abilities: ['Agility', 'Intelligence'],
-                cons: ['High energy', 'Needs exercise']
+                id: breed.id.toString(),
+                name: breed.name,
+                image: breed.image.url,
+                lifespan: breed.life_span,
+                facts: featured ? featured.facts : (facts.length > 0 ? facts : ['A versatile and unique breed.']),
+                abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
+                cons: featured ? featured.cons : (challenges.length > 0 ? challenges : ['Needs regular exercise', 'Requires training'])
             };
-        }));
+        });
 
-        // Add any featured breeds not in the API list
+        // Ensure featured breeds that might not be in the raw list are included
         featuredBreeds.forEach(fb => {
-            if (!allBreeds.find(b => b.name === fb.name)) {
-                allBreeds.push(fb);
+            if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
+                allBreeds.push({ ...fb, id: `featured-${fb.id}` });
             }
         });
 
         allBreeds.sort((a, b) => a.name.localeCompare(b.name));
     } catch (error) {
-        console.error('Error fetching breeds:', error);
+        console.error('Error loading breeds:', error);
         allBreeds = featuredBreeds;
     }
 }
@@ -77,6 +79,7 @@ function renderSidebar(filteredBreeds = allBreeds) {
 }
 
 function renderCurrentView() {
+    displayContainer.scrollTo(0, 0);
     if (currentView === 'grid') {
         renderGrid();
     } else if (currentView === 'carousel') {
@@ -92,7 +95,7 @@ function renderGrid() {
             ${allBreeds.map(breed => `
                 <div class="breed-card" data-id="${breed.id}">
                     <div class="card-image">
-                        <img src="${breed.image}" alt="${breed.name}">
+                        <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                     </div>
                     <div class="card-info">
                         <h3>${breed.name}</h3>
@@ -111,7 +114,7 @@ function renderCarousel() {
             ${allBreeds.map(breed => `
                 <div class="carousel-item" data-id="${breed.id}">
                     <div class="image-container">
-                        <img src="${breed.image}" alt="${breed.name}">
+                        <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                     </div>
                     <div class="info-overlay">
                         <h3>${breed.name}</h3>
@@ -131,7 +134,7 @@ function renderDetail() {
     displayContainer.innerHTML = `
         <div class="detail-view">
             <button class="back-btn" id="back-to-list">
-                <i class="fas fa-arrow-left"></i> Back to ${currentView === 'carousel' ? 'Carousel' : 'Grid'}
+                <i class="fas fa-arrow-left"></i> Back to ${gridBtn.classList.contains('active') ? 'Grid' : 'Carousel'}
             </button>
             <div class="hero-section">
                 <div class="hero-image">
