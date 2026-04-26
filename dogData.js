@@ -238,6 +238,102 @@ const dogBreeds = [
             'Strong prey drive and roaming instincts.',
             'Can be very vocal (howling and "talking").'
         ]
+    },
+    {
+        id: 'great-dane',
+        name: 'Great Dane',
+        image: 'https://images.unsplash.com/photo-1534361960057-19889db9621e?auto=format&fit=crop&q=80&w=800',
+        lifespan: '6–10 years',
+        facts: [
+            'Known as the "Apollo of Dogs" for their grace.',
+            'One of the tallest dog breeds in the world.',
+            'Despite their size, they are gentle giants.',
+            'Originally bred to hunt wild boars.'
+        ],
+        abilities: [
+            'Imposing guardians and deterrents.',
+            'Surprisingly good at agility for their size.',
+            'Calm and patient indoor companions.',
+            'Excellent weight-pulling capabilities.'
+        ],
+        cons: [
+            'Very short lifespan (average 8 years).',
+            'Require a lot of living space.',
+            'High food and medical expenses.',
+            'Prone to "bloat" (gastric torsion).'
+        ]
+    },
+    {
+        id: 'shih-tzu',
+        name: 'Shih Tzu',
+        image: 'https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–18 years',
+        facts: [
+            'Name translates to "Little Lion Dog."',
+            'Bred to be companions for Chinese royalty.',
+            'Thrive on human attention and affection.',
+            'Have a distinct underbite and square face.'
+        ],
+        abilities: [
+            'Exceptional emotional support companions.',
+            'Adaptable to apartment living.',
+            'Quick at learning charming tricks.',
+            'Very vigilant indoor watchdogs.'
+        ],
+        cons: [
+            'Require daily professional grooming.',
+            'Can be stubborn to house-train.',
+            'Prone to breathing and eye issues.',
+            'Sensitive to extreme heat.'
+        ]
+    },
+    {
+        id: 'border-collie',
+        name: 'Border Collie',
+        image: 'https://images.unsplash.com/photo-1503256207526-0d5d80fa2f47?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Consistently ranked as the world\'s smartest dog.',
+            'Known for the "intense stare" used in herding.',
+            'Possess an incredible work ethic.',
+            'Bred along the border of Scotland and England.'
+        ],
+        abilities: [
+            'World-class herding and gathering skills.',
+            'Top-tier agility and sport performance.',
+            'Capable of learning hundreds of words.',
+            'Exceptional problem-solving abilities.'
+        ],
+        cons: [
+            'Require immense mental stimulation.',
+            'Can become destructive if bored.',
+            'Intense herding instincts (may nip heels).',
+            'Not suitable for sedentary households.'
+        ]
+    },
+    {
+        id: 'corgi',
+        name: 'Pembroke Welsh Corgi',
+        image: 'https://images.unsplash.com/photo-1519098901909-b1553a1190af?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Famously favored by Queen Elizabeth II.',
+            'One of the oldest herding breeds.',
+            'Smallest of the herding group dogs.',
+            'Known for their "bunny-like" fluff and ears.'
+        ],
+        abilities: [
+            'Expert at herding cattle by nipping heels.',
+            'Surprisingly fast and agile for short legs.',
+            'Highly alert and protective watchdogs.',
+            'Quick-witted and eager to please.'
+        ],
+        cons: [
+            'Prone to back problems (IVDD).',
+            'Heavy year-round shedders.',
+            'Can be very vocal and bossy.',
+            'Prone to obesity if overfed.'
+        ]
     }
 ];
 
