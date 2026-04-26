@@ -15,7 +15,9 @@ const colorFilter = document.getElementById('color-filter');
 const gridBtn = document.getElementById('grid-view-btn');
 const carouselBtn = document.getElementById('carousel-view-btn');
 const sidebar = document.getElementById('sidebar');
-const mobileToggle = document.getElementById('mobile-toggle');
+const carouselNav = document.getElementById('carousel-nav');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
 
 const positiveTraits = ['Friendly', 'Alert', 'Intelligent', 'Courageous', 'Loyal', 'Energetic', 'Playful', 'Obedient', 'Protective', 'Trainable', 'Active', 'Gentle', 'Confident', 'Brave', 'Responsive', 'Receptive', 'Faithful', 'Composed', 'Reliable', 'Fearless', 'Self-assured', 'Eager', 'Good-natured', 'Affectionate', 'Spirited', 'Even Tempered', 'Joyful', 'Happy', 'Amiable', 'Dutiful', 'Responsible', 'Loving', 'Patient', 'Kind', 'Devoted', 'Sweet-Tempered', 'Companionable', 'Trusting'];
 
@@ -32,6 +34,20 @@ const breedColorMap = {
     'Poodle': 'white', 'Rottweiler': 'black', 'Dachshund': 'brown', 'Siberian Husky': 'grey', 'Chihuahua': 'tan',
     'Great Dane': 'grey', 'Doberman Pinscher': 'black', 'Boxer': 'brown', 'Shih Tzu': 'white', 'Pug': 'tan'
 };
+
+// Intersection Observer for Carousel Active State
+const carouselObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+        } else {
+            entry.target.classList.remove('active');
+        }
+    });
+}, {
+    root: null,
+    threshold: 0.6
+});
 
 // Initialize
 async function init() {
@@ -169,11 +185,15 @@ function renderSidebar(breeds = filteredBreeds) {
 }
 
 function renderCurrentView() {
+    displayContainer.scrollTo(0, 0);
+    carouselNav.style.display = currentView === 'carousel' ? 'flex' : 'none';
+
     if (currentView === 'grid') {
         renderGrid();
     } else if (currentView === 'carousel') {
         renderCarousel();
     } else if (currentView === 'detail') {
+        carouselNav.style.display = 'none';
         renderDetail();
     }
 }
@@ -184,22 +204,16 @@ function renderGrid() {
     if (groupBy === 'none') {
         displayContainer.innerHTML = `
             <div class="grid-container">
-                ${filteredBreeds.map(breed => renderCard(breed)).join('')}
+                ${filteredBreeds.map(breed => renderCard(breed, 'grid')).join('')}
             </div>
         `;
     } else {
-        const groups = {};
-        filteredBreeds.forEach(breed => {
-            const groupKey = breed[groupBy] || 'Other';
-            if (!groups[groupKey]) groups[groupKey] = [];
-            groups[groupKey].push(breed);
-        });
-
+        const groups = groupBreeds(groupBy);
         displayContainer.innerHTML = `
             <div class="grid-container">
                 ${Object.keys(groups).sort().map(groupKey => `
                     <div class="group-header">${groupKey}</div>
-                    ${groups[groupKey].map(breed => renderCard(breed)).join('')}
+                    ${groups[groupKey].map(breed => renderCard(breed, 'grid')).join('')}
                 `).join('')}
             </div>
         `;
@@ -207,37 +221,74 @@ function renderGrid() {
     attachItemListeners('.breed-card');
 }
 
-function renderCard(breed) {
-    return `
-        <div class="breed-card" data-id="${breed.id}">
-            <div class="card-image">
-                <img src="${breed.image}" alt="${breed.name}" loading="lazy">
+function renderCarousel() {
+    const groupBy = groupSelect.value;
+
+    if (groupBy === 'none') {
+        displayContainer.innerHTML = `
+            <div class="carousel-wrapper">
+                ${filteredBreeds.map(breed => renderCard(breed, 'carousel')).join('')}
             </div>
-            <div class="card-info">
-                <h3>${breed.name}</h3>
-                <p>${breed.continent} | ${breed.size}</p>
+        `;
+    } else {
+        const groups = groupBreeds(groupBy);
+        displayContainer.innerHTML = `
+            <div class="carousel-wrapper grouped">
+                ${Object.keys(groups).sort().map(groupKey => `
+                    <div class="carousel-group">
+                        <div class="carousel-group-title">${groupKey}</div>
+                        <div class="carousel-wrapper">
+                            ${groups[groupKey].map(breed => renderCard(breed, 'carousel')).join('')}
+                        </div>
+                    </div>
+                `).join('')}
             </div>
-        </div>
-    `;
+        `;
+    }
+    
+    // Attach observer to carousel items
+    const items = displayContainer.querySelectorAll('.carousel-item');
+    items.forEach(item => carouselObserver.observe(item));
+    
+    attachItemListeners('.carousel-item');
 }
 
-function renderCarousel() {
-    displayContainer.innerHTML = `
-        <div class="carousel-wrapper">
-            ${filteredBreeds.map(breed => `
-                <div class="carousel-item" data-id="${breed.id}">
-                    <div class="image-container">
-                        <img src="${breed.image}" alt="${breed.name}" loading="lazy">
-                    </div>
-                    <div class="info-overlay">
-                        <h3>${breed.name}</h3>
-                        <p>${breed.continent} | ${breed.lifespan}</p>
-                    </div>
+function groupBreeds(key) {
+    const groups = {};
+    filteredBreeds.forEach(breed => {
+        const groupKey = breed[key] || 'Other';
+        if (!groups[groupKey]) groups[groupKey] = [];
+        groups[groupKey].push(breed);
+    });
+    return groups;
+}
+
+function renderCard(breed, type) {
+    if (type === 'grid') {
+        return `
+            <div class="breed-card" data-id="${breed.id}">
+                <div class="card-image">
+                    <img src="${breed.image}" alt="${breed.name}" loading="lazy">
                 </div>
-            `).join('')}
-        </div>
-    `;
-    attachItemListeners('.carousel-item');
+                <div class="card-info">
+                    <h3>${breed.name}</h3>
+                    <p>${breed.continent} | ${breed.size}</p>
+                </div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="carousel-item" data-id="${breed.id}">
+                <div class="image-container">
+                    <img src="${breed.image}" alt="${breed.name}" loading="lazy">
+                </div>
+                <div class="info-overlay">
+                    <h3>${breed.name}</h3>
+                    <p>${breed.continent} | ${breed.lifespan}</p>
+                </div>
+            </div>
+        `;
+    }
 }
 
 function renderDetail() {
@@ -331,8 +382,24 @@ function setupEventListeners() {
         renderCurrentView();
     });
 
-    mobileToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
+    prevBtn.addEventListener('click', () => {
+        const wrapper = displayContainer.querySelector('.carousel-wrapper');
+        if (wrapper) wrapper.scrollBy({ left: -500, behavior: 'smooth' });
+    });
+
+    nextBtn.addEventListener('click', () => {
+        const wrapper = displayContainer.querySelector('.carousel-wrapper');
+        if (wrapper) wrapper.scrollBy({ left: 500, behavior: 'smooth' });
+    });
+
+    // Mobile Toggle
+    document.addEventListener('click', (e) => {
+        const toggle = e.target.closest('#mobile-toggle');
+        if (toggle) {
+            sidebar.classList.toggle('open');
+        } else if (!e.target.closest('#sidebar') && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
     });
 
     breedList.addEventListener('click', (e) => {
