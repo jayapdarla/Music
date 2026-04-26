@@ -69,9 +69,9 @@ async function loadBreeds() {
             else if (heightAvg > 60) size = 'Large';
 
             const diet = breed.breed_group === 'Working' || breed.breed_group === 'Herding' ? 'High Protein' : 'Standard Balanced';
-            const price = breed.breed_group === 'Toy' || breed.breed_group === 'Non-Sporting' ? '$1,000 - $1,500' : '$1,500 - $3,000';
+            const priceRangeStr = breed.breed_group === 'Toy' || breed.breed_group === 'Non-Sporting' ? '$1,000 - $1,500' : '$1,500 - $3,000';
+            const priceAvg = parseRange(priceRangeStr);
             
-            // Color Mapping
             let color = breedColorMap[breed.name] || 'various';
             if (color === 'various' && breed.name.toLowerCase().includes('white')) color = 'white';
             if (color === 'various' && breed.name.toLowerCase().includes('black')) color = 'black';
@@ -89,7 +89,8 @@ async function loadBreeds() {
                 origin: origin,
                 size: size,
                 diet: diet,
-                price: price,
+                price: priceRangeStr,
+                priceNum: priceAvg,
                 color: color,
                 facts: featured ? featured.facts : [`Originally bred for: ${breed.bred_for || 'Companionship'}`, `Breed Group: ${breed.breed_group || 'Diverse'}`, `Origin: ${origin}`],
                 abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
@@ -99,7 +100,7 @@ async function loadBreeds() {
 
         featuredBreeds.forEach(fb => {
             if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
-                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', color: 'tan' });
+                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan' });
             }
         });
     } catch (error) {
@@ -149,6 +150,8 @@ function sortBreeds() {
     const sortVal = sortSelect.value;
     filteredBreeds.sort((a, b) => {
         if (sortVal === 'name-asc') return a.name.localeCompare(b.name);
+        if (sortVal === 'price-desc') return b.priceNum - a.priceNum;
+        if (sortVal === 'price-asc') return a.priceNum - b.priceNum;
         if (sortVal === 'life-desc') return b.lifeNum - a.lifeNum;
         if (sortVal === 'weight-desc') return b.weightNum - a.weightNum;
         if (sortVal === 'height-desc') return b.heightNum - a.heightNum;
