@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subtitle = document.getElementById('subtitle');
 
     const messages = [
-        "Hello World",
+        " Hello Music World",
         "Bonjour le monde",
         "Hola Mundo",
         "Hallo Welt",
