@@ -814,6 +814,486 @@ const dogBreeds = [
             'Can be wary and aloof with strangers.',
             'Require an experienced and active owner.'
         ]
+    },
+    {
+        id: 'newfoundland',
+        name: 'Newfoundland',
+        image: 'https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?auto=format&fit=crop&q=80&w=800',
+        lifespan: '8–10 years',
+        facts: [
+            'Known as "Nature\'s Babysitters" for their patience.',
+            'Have webbed feet and a water-resistant coat.',
+            'Famous for their heroics in water rescues.',
+            'Possess a legendary sweet and gentle temperament.'
+        ],
+        abilities: [
+            'Exceptional long-distance swimming power.',
+            'Strong draft dogs for hauling heavy loads.',
+            'Superior life-saving instincts in water.',
+            'Patient and protective companions for children.'
+        ],
+        cons: [
+            'Massive amount of drool and heavy shedding.',
+            'Short lifespan due to their giant size.',
+            'Prone to joint and heart issues.',
+            'Require constant grooming and maintenance.'
+        ]
+    },
+    {
+        id: 'pyrenees',
+        name: 'Great Pyrenees',
+        image: 'https://images.unsplash.com/photo-1530281739861-70c176e6bc7c?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–12 years',
+        facts: [
+            'Ancient guardians of sheep in the Pyrenees Mountains.',
+            'Known for their calm and Zen-like demeanor.',
+            'Possess a beautiful, thick white double coat.',
+            'Independent thinkers and very brave protectors.'
+        ],
+        abilities: [
+            'Superior livestock and territory guarding.',
+            'Exceptional endurance in cold mountain climates.',
+            'Incredible patience and loyalty to family.',
+            'Vigilant and vocal watchdogs at night.'
+        ],
+        cons: [
+            'Can be very vocal (prone to night barking).',
+            'Independent nature makes training a challenge.',
+            'Heavy shedders year-round.',
+            'Require a lot of space to "patrol."'
+        ]
+    },
+    {
+        id: 'vizsla',
+        name: 'Vizsla',
+        image: 'https://images.unsplash.com/photo-1579178048225-44299b821f00?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Known as "Velcro Dogs" for their extreme attachment.',
+            'Hungarian breed with a sleek golden-rust coat.',
+            'Incredibly sensitive and affectionate nature.',
+            'One of the oldest hunting breeds in Europe.'
+        ],
+        abilities: [
+            'Exceptional pointers and retrievers.',
+            'Unmatched stamina for running and hiking.',
+            'Highly intelligent and eager-to-please learners.',
+            'Natural performers in agility and obedience.'
+        ],
+        cons: [
+            'Suffer from severe separation anxiety.',
+            'Require immense daily physical exercise.',
+            'Can be destructive if not mentally stimulated.',
+            'Sensitive and need very gentle training.'
+        ]
+    },
+    {
+        id: 'ridgeback',
+        name: 'Rhodesian Ridgeback',
+        image: 'https://images.unsplash.com/photo-1562681533-356c3ce4460a?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–13 years',
+        facts: [
+            'Famous for the unique ridge of hair on their back.',
+            'Originally bred in Africa to hunt lions.',
+            'Possess a calm and dignified home personality.',
+            'Extremely brave and loyal protectors.'
+        ],
+        abilities: [
+            'Exceptional stamina and athletic power.',
+            'Vigilant watchdogs and family guardians.',
+            'Superior hunting and tracking capabilities.',
+            'Highly resilient to extreme temperatures.'
+        ],
+        cons: [
+            'Strong-willed and independent (stubborn).',
+            'High prey drive toward smaller animals.',
+            'Require experienced and firm leadership.',
+            'Can be aloof and wary of strangers.'
+        ]
+    },
+    {
+        id: 'malinois',
+        name: 'Belgian Malinois',
+        image: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–16 years',
+        facts: [
+            'The preferred breed for police and military K9s.',
+            'Possess an unmatched work ethic and intensity.',
+            'Known for being extremely alert and smart.',
+            'Form an unbreakable bond with their handlers.'
+        ],
+        abilities: [
+            'World-class protection and detection skills.',
+            'Incredible agility and explosive speed.',
+            'Highly trainable for complex mission tasks.',
+            'Exceptional focus and tireless energy.'
+        ],
+        cons: [
+            'Extremely high energy and drive levels.',
+            'Not recommended for novice or casual owners.',
+            'Can be destructive without a "job" to do.',
+            'Intense herding and protective instincts.'
+        ]
+    },
+    {
+        id: 'mastiff',
+        name: 'English Mastiff',
+        image: 'https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&q=80&w=800',
+        lifespan: '6–10 years',
+        facts: [
+            'One of the heaviest and most massive dog breeds.',
+            'Known as "Gentle Giants" for their calm nature.',
+            'Ancient guardians of estates and properties.',
+            'Deeply devoted and protective of their family.'
+        ],
+        abilities: [
+            'Imposing and effective family guardians.',
+            'Naturally calm and dignified companions.',
+            'Excellent at emotional support and comfort.',
+            'Surprisingly gentle for their massive size.'
+        ],
+        cons: [
+            'Massive amount of drool and heavy shedding.',
+            'Require a lot of indoor space and food.',
+            'Very short lifespan (average 7–8 years).',
+            'Prone to joint issues and obesity.'
+        ]
+    },
+    {
+        id: 'cane-corso',
+        name: 'Cane Corso',
+        image: 'https://images.unsplash.com/photo-1567171466295-4afa58145227?auto=format&fit=crop&q=80&w=800',
+        lifespan: '9–12 years',
+        facts: [
+            'Ancient Italian mastiff used for guarding and hunting.',
+            'Highly intelligent, confident, and powerful.',
+            'Name translates to "Guardian Dog" in Latin.',
+            'Intensely loyal and bonded to their family.'
+        ],
+        abilities: [
+            'Elite property and family protection skills.',
+            'Highly athletic and agile for a mastiff.',
+            'Capable of complex training and work.',
+            'Natural-born guardians with high focus.'
+        ],
+        cons: [
+            'Dominant nature (needs experienced owner).',
+            'Require extensive and early socialization.',
+            'Can be aloof and suspicious of strangers.',
+            'High exercise and mental stimulation needs.'
+        ]
+    },
+    {
+        id: 'mini-schnauzer',
+        name: 'Miniature Schnauzer',
+        image: 'https://images.unsplash.com/photo-1512411516752-77218693cc33?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Spirited, intelligent, and sturdy small breed.',
+            'Known for their distinct beard and eyebrows.',
+            'Bred originally in Germany as farm ratters.',
+            'Incredibly social and people-oriented.'
+        ],
+        abilities: [
+            'Quick and clever learners of tricks.',
+            'Highly alert and vocal watchdogs.',
+            'Adaptable to both city and country life.',
+            'Top-tier performers in agility sports.'
+        ],
+        cons: [
+            'Known for persistent and loud barking.',
+            'Require regular professional grooming.',
+            'Can be feisty with other unknown dogs.',
+            'Need consistent mental stimulation.'
+        ]
+    },
+    {
+        id: 'havanese',
+        name: 'Havanese',
+        image: 'https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–16 years',
+        facts: [
+            'The national dog of Cuba and a popular toy breed.',
+            'Known for their silky, non-shedding coat.',
+            'Cheerfully social and affectionate "velcro" dogs.',
+            'Highly adaptable and great for apartment life.'
+        ],
+        abilities: [
+            'Exceptional therapy and support companions.',
+            'Quick-witted and naturally charming performers.',
+            'Highly social with other pets and children.',
+            'Perfect indoor companions for all ages.'
+        ],
+        cons: [
+            'Suffer from severe separation anxiety.',
+            'Require daily brushing to avoid matting.',
+            'Can be difficult to house-train.',
+            'Known for being vocal/barking for attention.'
+        ]
+    },
+    {
+        id: 'westie',
+        name: 'West Highland White Terrier',
+        image: 'https://images.unsplash.com/photo-1514373941175-0a141062967e?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15+ years',
+        facts: [
+            'Bred to be tough and bold hunters in Scotland.',
+            'Recognizable by their stark white, hard coat.',
+            'Possess a "big dog" personality in a small body.',
+            'Extremely confident, smart, and independent.'
+        ],
+        abilities: [
+            'Excellent and vigilant small watchdogs.',
+            'Highly persistent and brave problem-solvers.',
+            'Active and agile companions for hiking.',
+            'Quick at learning when the task is fun.'
+        ],
+        cons: [
+            'High prey drive and prone to digging.',
+            'Can be stubborn or bored by training.',
+            'Prone to excessive and loud barking.',
+            'Require regular professional grooming.'
+        ]
+    },
+    {
+        id: 'scottish-terrier',
+        name: 'Scottish Terrier',
+        image: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Known as the "Diehard" for their rugged nature.',
+            'Iconic silhouette with a long beard and eyebrows.',
+            'Independent, confident, and very dignified.',
+            'Bred originally to hunt foxes and badgers.'
+        ],
+        abilities: [
+            'Excellent and vigilant small watchdogs.',
+            'Naturally brave and focused hunters.',
+            'Highly athletic in agility and Earthdog trials.',
+            'Compact and sturdy companions for travel.'
+        ],
+        cons: [
+            'Can be independent and stubborn to train.',
+            'High prey drive (not safe off-leash).',
+            'May be feisty with other dogs.',
+            'Require regular professional grooming.'
+        ]
+    },
+    {
+        id: 'airedale',
+        name: 'Airedale Terrier',
+        image: 'https://images.unsplash.com/photo-1520315342629-6ea920342248?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–13 years',
+        facts: [
+            'Known as the "King of Terriers" for their size.',
+            'The largest of all terrier breeds.',
+            'Highly intelligent, courageous, and loyal.',
+            'Used as police and military dogs in the past.'
+        ],
+        abilities: [
+            'Exceptional tracking and scent work.',
+            'Highly versatile and capable working dogs.',
+            'Excellent agility and sport performance.',
+            'Protective and devoted family guardians.'
+        ],
+        cons: [
+            'Require significant physical/mental exercise.',
+            'Can be territorial with unknown dogs.',
+            'Independent and strong-willed nature.',
+            'Not recommended for first-time owners.'
+        ]
+    },
+    {
+        id: 'bloodhound',
+        name: 'Bloodhound',
+        image: 'https://images.unsplash.com/photo-1510771463146-e89e6e86560e?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–12 years',
+        facts: [
+            'Possess the most powerful nose in the dog world.',
+            'Known for long ears and deep facial wrinkles.',
+            'Incredibly patient, gentle, and mild-mannered.',
+            'Originally bred to track deer and wild boar.'
+        ],
+        abilities: [
+            'Unmatched tracking and trailing capabilities.',
+            'Exceptional endurance for long-distance scenting.',
+            'Naturally calm and affectionate home presence.',
+            'Incredible focus when on a scent trail.'
+        ],
+        cons: [
+            'Will wander off if they catch a scent.',
+            'Known for significant drooling and "hound odor."',
+            'Can be independent and stubborn to train.',
+            'Prone to bloat and ear infections.'
+        ]
+    },
+    {
+        id: 'whippet',
+        name: 'Whippet',
+        image: 'https://images.unsplash.com/photo-1563889362258-3f5f6ca0b680?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Known as the "Poor Man\'s Racehorse."',
+            'Incredible sprinters with 35 mph top speeds.',
+            'Extremely quiet, gentle, and calm indoors.',
+            'Elegant sighthounds with an athletic build.'
+        ],
+        abilities: [
+            'Exceptional acceleration and sprinting speed.',
+            'Highly agile and elegant in movement.',
+            'Very gentle and low-odor companions.',
+            'Great at lure coursing and dog sports.'
+        ],
+        cons: [
+            'Extremely high prey drive (not safe off-leash).',
+            'Very sensitive to cold weather.',
+            'Suffer from separation anxiety easily.',
+            'Thin skin is prone to cuts and scrapes.'
+        ]
+    },
+    {
+        id: 'portie',
+        name: 'Portuguese Water Dog',
+        image: 'https://images.unsplash.com/photo-1594498653385-d5172b532c00?auto=format&fit=crop&q=80&w=800',
+        lifespan: '11–14 years',
+        facts: [
+            'Bred to help Portuguese fishermen in the water.',
+            'Incredibly intelligent, fun-loving, and active.',
+            'Possess a waterproof, non-shedding coat.',
+            'Known as "Velcro Dogs" for their loyalty.'
+        ],
+        abilities: [
+            'Exceptional swimmers and divers.',
+            'Highly trainable and eager to work.',
+            'Excellent at water sports and retrieving.',
+            'Versatile and athletic family companions.'
+        ],
+        cons: [
+            'Require high-maintenance grooming.',
+            'Need significant physical and mental exercise.',
+            'Can be destructive if they become bored.',
+            'Strong need for constant human companionship.'
+        ]
+    },
+    {
+        id: 'wheaten',
+        name: 'Soft Coated Wheaten Terrier',
+        image: 'https://images.unsplash.com/photo-1551065283-e380e227092c?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Known for their silky, wheat-colored coat.',
+            'Famous for the enthusiastic "Wheaten Greet."',
+            'Retain a playful, puppy-like spirit into adulthood.',
+            'Deeply people-oriented and affectionate nature.'
+        ],
+        abilities: [
+            'Highly energetic and agile companions.',
+            'Naturally alert and vocal watchdogs.',
+            'Adaptable to various living environments.',
+            'Quick to learn when engaged with positive training.'
+        ],
+        cons: [
+            'High grooming needs to prevent matting.',
+            'Strong-willed and can be stubborn.',
+            'Prone to specific protein-related health issues.',
+            'Require consistent training and boundaries.'
+        ]
+    },
+    {
+        id: 'brittany',
+        name: 'Brittany',
+        image: 'https://images.unsplash.com/photo-1596708053400-537389459a9a?auto=format&fit=crop&q=80&w=800',
+        lifespan: '12–15 years',
+        facts: [
+            'Named after the Brittany province in France.',
+            'Known for their incredible athleticism and speed.',
+            'Often confused with spaniels but hunt like pointers.',
+            'Possess a happy, alert, and eager-to-please nature.'
+        ],
+        abilities: [
+            'Exceptional pointers and bird hunters.',
+            'Incredible stamina and endurance for running.',
+            'Top-tier competitors in agility and flyball.',
+            'Highly intelligent and versatile working dogs.'
+        ],
+        cons: [
+            'Extremely high energy requirements.',
+            'Can become destructive if not mentally busy.',
+            'Prone to excessive barking if bored.',
+            'Need a lot of space and vigorous exercise.'
+        ]
+    },
+    {
+        id: 'sheepdog',
+        name: 'Old English Sheepdog',
+        image: 'https://images.unsplash.com/photo-1516149174574-0678d49a37c7?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–12+ years',
+        facts: [
+            'Iconic for their profuse, shaggy grey-and-white coat.',
+            'Known for a unique "shuffling bear" gait.',
+            'Cheerful, even-tempered, and deeply devoted.',
+            'Used historically to drive cattle and sheep to market.'
+        ],
+        abilities: [
+            'Intelligent and protective family watchdogs.',
+            'Naturally calm and adaptable indoor presence.',
+            'Patient and protective "nanny dogs."',
+            'Excellent at herding and livestock guarding.'
+        ],
+        cons: [
+            'Extremely high grooming maintenance.',
+            'Can be boisterous and unaware of their size.',
+            'May exhibit herding behavior with children.',
+            'Prone to hip dysplasia and bloat.'
+        ]
+    },
+    {
+        id: 'puli',
+        name: 'Puli',
+        image: 'https://images.unsplash.com/photo-1506492351659-197992794f4c?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–15 years',
+        facts: [
+            'Instantly recognizable by their mop-like "cords."',
+            'Ancient Hungarian breed used for herding sheep.',
+            'Agile, humorous, and deeply bonded to family.',
+            'Known for being incredible acrobats and jumpers.'
+        ],
+        abilities: [
+            'Superior agility and herding capabilities.',
+            'Highly intelligent and quick-witted learners.',
+            'Excellent and vigilant small watchdogs.',
+            'Exceptional at complex obedience and sport.'
+        ],
+        cons: [
+            'Labor-intensive coat maintenance (cords).',
+            'Require significant mental stimulation.',
+            'Can bark excessively if not occupied.',
+            'Can be wary and suspicious of strangers.'
+        ]
+    },
+    {
+        id: 'komondor',
+        name: 'Komondor',
+        image: 'https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–12 years',
+        facts: [
+            'Giant livestock guardian with a heavy white corded coat.',
+            'Known as the "King of Hungarian Sheepdogs."',
+            'Possess a calm, quiet, and independent nature.',
+            'Fiercely protective of their family and "flock."'
+        ],
+        abilities: [
+            'Elite and autonomous livestock protection.',
+            'Incredible courage and strength against predators.',
+            'Vigilant and natural family guardians.',
+            'Highly intelligent and capable of independent work.'
+        ],
+        cons: [
+            'Extremely complex grooming needs (cords).',
+            'Require a firm and experienced owner.',
+            'Can be wary or aggressive toward strangers.',
+            'Require a lot of space and large-scale care.'
+        ]
     }
 ];
 
