@@ -526,6 +526,102 @@ const dogBreeds = [
             'Shed heavily year-round.',
             'Need a lot of mental and physical work.'
         ]
+    },
+    {
+        id: 'akita',
+        name: 'Akita',
+        image: 'https://images.unsplash.com/photo-1591160674255-410bb4842d4d?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–14 years',
+        facts: [
+            'Ancient breed from Japan, symbol of health and loyalty.',
+            'Known for the legendary Hachikō, the most loyal dog.',
+            'Have a distinctive plush, curled-over tail.',
+            'Quiet, dignified, and courageous nature.'
+        ],
+        abilities: [
+            'Fierce and devoted family guardians.',
+            'Strong search and rescue capabilities.',
+            'Adept at tracking and scent work.',
+            'Exceptional endurance in cold climates.'
+        ],
+        cons: [
+            'Can be aggressive toward other dogs.',
+            'Independent and sometimes stubborn to train.',
+            'Wary of strangers (requires early socialization).',
+            'Heavy seasonal shedders.'
+        ]
+    },
+    {
+        id: 'chow-chow',
+        name: 'Chow Chow',
+        image: 'https://images.unsplash.com/photo-1554692990-d92033c1f1ee?auto=format&fit=crop&q=80&w=800',
+        lifespan: '8–12 years',
+        facts: [
+            'Famous for their unique blue-black tongue.',
+            'Known for their "lion-like" mane of fur.',
+            'One of the world\'s oldest dog breeds.',
+            'Highly independent and cat-like in temperament.'
+        ],
+        abilities: [
+            'Vigilant and naturally protective watchdogs.',
+            'Extremely clean and easy to house-train.',
+            'Calm and dignified indoor presence.',
+            'Strong sense of loyalty to one person.'
+        ],
+        cons: [
+            'Can be aloof and suspicious of strangers.',
+            'Prone to overheating in warm weather.',
+            'Requires significant and regular grooming.',
+            'Not recommended for first-time owners.'
+        ]
+    },
+    {
+        id: 'shar-pei',
+        name: 'Shar-Pei',
+        image: 'https://images.unsplash.com/photo-1593134257782-e89567b7684d?auto=format&fit=crop&q=80&w=800',
+        lifespan: '8–12 years',
+        facts: [
+            'Instantly recognizable by their deep skin wrinkles.',
+            'Possess a unique blue-black tongue like the Chow.',
+            'Name translates to "Sand Skin" due to coat texture.',
+            'Devoted and calm companions with family.'
+        ],
+        abilities: [
+            'Excellent and naturally suspicious watchdogs.',
+            'Highly intelligent and discerning.',
+            'Require moderate exercise, great for homes.',
+            'Strong and independent problem-solvers.'
+        ],
+        cons: [
+            'Prone to skin infections in their wrinkles.',
+            'Can be very stubborn and strong-willed.',
+            'Prone to eye issues like entropion.',
+            'Need early and persistent socialization.'
+        ]
+    },
+    {
+        id: 'malamute',
+        name: 'Alaskan Malamute',
+        image: 'https://images.unsplash.com/photo-1491604612772-6853927639ef?auto=format&fit=crop&q=80&w=800',
+        lifespan: '10–14 years',
+        facts: [
+            'Built for power and endurance as Arctic sled dogs.',
+            'The official state dog of Alaska.',
+            'Friendly, outgoing, and love all people.',
+            'Have a very thick, waterproof double coat.'
+        ],
+        abilities: [
+            'Expert at pulling heavy weight over long distances.',
+            'Superior endurance and strength.',
+            'Excellent companions for cold-weather sports.',
+            'Highly social and affectionate "pack" dogs.'
+        ],
+        cons: [
+            'Extremely high physical and mental needs.',
+            'Notorious "escape artists" and diggers.',
+            'Shed massive amounts of fur seasonally.',
+            'Strong prey drive and prone to roaming.'
+        ]
     }
 ];
 
