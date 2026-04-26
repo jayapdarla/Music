@@ -59,25 +59,31 @@ const breedColorMap = {
     'Great Dane': 'grey', 'Doberman Pinscher': 'black', 'Boxer': 'brown', 'Shih Tzu': 'white', 'Pug': 'tan'
 };
 
-// Intersection Observer for Carousel Active State & 3D Effect
+// Improved Intersection Observer for Carousel
 const carouselObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const item = entry.target;
-        const rect = item.getBoundingClientRect();
-        const center = window.innerWidth / 2;
-        const itemCenter = rect.left + rect.width / 2;
-        const diff = itemCenter - center;
-
-        if (entry.isIntersecting && Math.abs(diff) < rect.width / 2) {
-            item.classList.add('active');
-            item.style.transform = `scale(1.2) translateZ(100px)`;
-        } else {
-            item.classList.remove('active');
-            const rotation = diff > 0 ? -25 : 25;
-            item.style.transform = `scale(0.8) rotateY(${rotation}deg)`;
+        if (entry.isIntersecting) {
+            updateItemTransform(item);
         }
     });
-}, { root: null, threshold: 0.1 });
+}, { root: null, threshold: [0, 0.5, 1] });
+
+function updateItemTransform(item) {
+    const rect = item.getBoundingClientRect();
+    const center = window.innerWidth / 2;
+    const itemCenter = rect.left + rect.width / 2;
+    const distance = itemCenter - center;
+    const absDistance = Math.abs(distance);
+    
+    if (absDistance < rect.width / 2) {
+        item.classList.add('active');
+    } else {
+        item.classList.remove('active');
+        const rotation = distance > 0 ? -20 : 20;
+        item.style.transform = `scale(0.85) rotateY(${rotation}deg)`;
+    }
+}
 
 // Initialize
 async function init() {
@@ -244,13 +250,22 @@ function renderGrid() {
 function renderCarousel() {
     const groupBy = groupSelect.value;
     if (groupBy === 'none') {
-        displayContainer.innerHTML = `<div class="carousel-wrapper">${filteredBreeds.map(breed => renderCard(breed, 'carousel')).join('')}</div>`;
+        displayContainer.innerHTML = `<div class="carousel-wrapper single-carousel">${filteredBreeds.map(breed => renderCard(breed, 'carousel')).join('')}</div>`;
     } else {
         const groups = groupBreeds(groupBy);
-        displayContainer.innerHTML = `<div class="carousel-wrapper grouped">${Object.keys(groups).sort().map(groupKey => `<div class="carousel-group"><div class="carousel-group-title">${groupKey}</div><div class="carousel-wrapper">${groups[groupKey].map(breed => renderCard(breed, 'carousel')).join('')}</div></div>`).join('')}</div>`;
+        displayContainer.innerHTML = `<div class="carousel-groups-container">${Object.keys(groups).sort().map(groupKey => `<div class="carousel-group"><div class="carousel-group-title">${groupKey}</div><div class="carousel-wrapper">${groups[groupKey].map(breed => renderCard(breed, 'carousel')).join('')}</div></div>`).join('')}</div>`;
     }
+    
     const items = displayContainer.querySelectorAll('.carousel-item');
     items.forEach(item => carouselObserver.observe(item));
+
+    // Listen for scroll events to update 3D transforms
+    displayContainer.querySelectorAll('.carousel-wrapper').forEach(wrapper => {
+        wrapper.addEventListener('scroll', () => {
+            wrapper.querySelectorAll('.carousel-item').forEach(item => updateItemTransform(item));
+        });
+    });
+
     attachItemListeners('.carousel-item');
 }
 
@@ -396,13 +411,14 @@ function setupEventListeners() {
     });
 
     prevBtn.addEventListener('click', () => {
-        const wrapper = displayContainer.querySelector('.carousel-wrapper');
-        if (wrapper) wrapper.scrollBy({ left: -400, behavior: 'smooth' });
+        const wrappers = displayContainer.querySelectorAll('.carousel-wrapper');
+        // Find the wrapper that is most visible or has the active element
+        wrappers.forEach(w => w.scrollBy({ left: -400, behavior: 'smooth' }));
     });
 
     nextBtn.addEventListener('click', () => {
-        const wrapper = displayContainer.querySelector('.carousel-wrapper');
-        if (wrapper) wrapper.scrollBy({ left: 400, behavior: 'smooth' });
+        const wrappers = displayContainer.querySelectorAll('.carousel-wrapper');
+        wrappers.forEach(w => w.scrollBy({ left: 400, behavior: 'smooth' }));
     });
 
     document.addEventListener('click', (e) => {

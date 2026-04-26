@@ -361,14 +361,16 @@ body {
 /* Carousel View */
 .carousel-wrapper {
     display: flex;
-    gap: 0; /* Remove gap for overflow effect */
+    gap: 1rem;
     overflow-x: auto;
     padding: 5rem 10vw 10rem;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     height: calc(100vh - 120px);
     align-items: center;
-    perspective: 2000px; /* High perspective for 3D effect */
+    perspective: 2000px;
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
 }
 
 .carousel-wrapper::-webkit-scrollbar {
@@ -381,30 +383,30 @@ body {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: 30px;
-    overflow: visible; /* Allow reflection and 3D shadow */
+    overflow: visible;
     scroll-snap-align: center;
     position: relative;
     cursor: pointer;
-    transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                filter 0.8s, 
-                box-shadow 0.8s,
-                opacity 0.8s;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                filter 0.6s, 
+                box-shadow 0.6s,
+                opacity 0.6s;
     display: flex;
     flex-direction: column;
     transform-style: preserve-3d;
-    filter: brightness(0.5) contrast(1.2) grayscale(0.3);
-    opacity: 0.6;
-    margin: 0 -50px; /* Slight overlap */
-    -webkit-box-reflect: below 20px linear-gradient(transparent, rgba(255,255,255,0.1));
+    filter: brightness(0.6) blur(2px);
+    opacity: 0.7;
+    margin: 0 10px; /* Positive margin to avoid clicking overlaps */
+    -webkit-box-reflect: below 20px linear-gradient(transparent, rgba(255,255,255,0.05));
 }
 
 .carousel-item.active {
-    transform: scale(1.2) translateZ(100px);
+    transform: scale(1.1) translateZ(150px) rotateY(0deg) !important;
     border-color: var(--accent-color);
-    box-shadow: 0 20px 80px rgba(56, 189, 248, 0.4);
-    filter: brightness(1) contrast(1) grayscale(0);
+    box-shadow: 0 20px 100px rgba(56, 189, 248, 0.5);
+    filter: brightness(1) blur(0);
     opacity: 1;
-    z-index: 100;
+    z-index: 500;
 }
 
 .carousel-item .image-container {
