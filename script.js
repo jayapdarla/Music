@@ -1,104 +1,102 @@
+import dogBreeds from './dogData.js';
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Particle effect
-    const particlesContainer = document.getElementById('particles-container');
-    const particleCount = 50;
+    const breedList = document.querySelector('.breed-list');
+    const mainContent = document.querySelector('main');
+    
+    let currentBreedIndex = 0;
+    let activeTabId = 'facts';
 
-    for (let i = 0; i < particleCount; i++) {
-        createParticle(particlesContainer);
+    // Initialize Sidebar
+    function initSidebar() {
+        breedList.innerHTML = '';
+        dogBreeds.forEach((breed, index) => {
+            const li = document.createElement('li');
+            li.className = `breed-item ${index === currentBreedIndex ? 'active' : ''}`;
+            li.textContent = breed.name;
+            li.addEventListener('click', () => {
+                currentBreedIndex = index;
+                renderBreed();
+                updateSidebarActive();
+            });
+            breedList.appendChild(li);
+        });
     }
 
-    // Button interaction
-    const btn = document.getElementById('interact-btn');
-    const greeting = document.getElementById('greeting');
-    const subtitle = document.getElementById('subtitle');
+    function updateSidebarActive() {
+        document.querySelectorAll('.breed-item').forEach((item, index) => {
+            item.classList.toggle('active', index === currentBreedIndex);
+        });
+    }
 
-    const messages = [
-        " Hello Music World",
-        "Bonjour le monde",
-        "Hola Mundo",
-        "Hallo Welt",
-        "Ciao Mondo",
-        "こんにちは世界"
-    ];
+    // Render Breed Details
+    function renderBreed() {
+        const breed = dogBreeds[currentBreedIndex];
+        
+        mainContent.innerHTML = `
+            <section class="breed-hero">
+                <div class="image-container">
+                    <img src="${breed.image}" alt="${breed.name}">
+                </div>
+                <div class="breed-info">
+                    <h1 class="breed-title">${breed.name}</h1>
+                    <div class="stats-card">
+                        <div class="stats-icon">⏳</div>
+                        <div>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Lifespan</p>
+                            <p style="font-size: 1.25rem; font-weight: 600;">${breed.lifespan}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-    let currentIndex = 0;
+            <section class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-btn ${activeTabId === 'facts' ? 'active' : ''}" data-tab="facts">Facts</button>
+                    <button class="tab-btn ${activeTabId === 'abilities' ? 'active' : ''}" data-tab="abilities">Abilities</button>
+                    <button class="tab-btn ${activeTabId === 'cons' ? 'active' : ''}" data-tab="cons">Challenges</button>
+                </div>
+                
+                <div id="facts" class="tab-content ${activeTabId === 'facts' ? 'active' : ''}">
+                    <ul class="content-list">
+                        ${breed.facts.map(fact => `<li>${fact}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div id="abilities" class="tab-content ${activeTabId === 'abilities' ? 'active' : ''}">
+                    <ul class="content-list">
+                        ${breed.abilities.map(ability => `<li>${ability}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div id="cons" class="tab-content ${activeTabId === 'cons' ? 'active' : ''}">
+                    <ul class="content-list">
+                        ${breed.cons.map(con => `<li>${con}</li>`).join('')}
+                    </ul>
+                </div>
+            </section>
+        `;
 
-    btn.addEventListener('click', () => {
-        currentIndex = (currentIndex + 1) % messages.length;
-        
-        // Remove animation to re-trigger
-        greeting.style.animation = 'none';
-        greeting.offsetHeight; // trigger reflow
-        
-        greeting.textContent = messages[currentIndex];
-        
-        // Add a subtle pop animation to the card
-        const card = document.querySelector('.glass-card');
-        card.classList.remove('celebrate');
-        void card.offsetWidth; // trigger reflow
-        card.classList.add('celebrate');
+        // Re-attach tab listeners
+        attachTabListeners();
+    }
 
-        // Change subtitle slightly
-        subtitle.textContent = `Displaying greeting ${currentIndex + 1} of ${messages.length}`;
-        
-        // Restore pulse animation
-        greeting.style.animation = 'pulse 3s infinite ease-in-out';
-        
-        // Add a burst of particles on click
-        createBurst();
-    });
+    function attachTabListeners() {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                activeTabId = e.target.dataset.tab;
+                
+                // Update buttons
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                
+                // Update content
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(activeTabId).classList.add('active');
+            });
+        });
+    }
+
+    initSidebar();
+    renderBreed();
 });
-
-function createParticle(container) {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    
-    // Random size between 2px and 10px
-    const size = Math.random() * 8 + 2;
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-    
-    // Random position
-    particle.style.left = `${Math.random() * 100}vw`;
-    particle.style.top = `${Math.random() * 100}vh`;
-    
-    // Random animation duration
-    const duration = Math.random() * 20 + 10;
-    particle.style.animationDuration = `${duration}s`;
-    
-    // Random animation delay
-    particle.style.animationDelay = `${Math.random() * 5}s`;
-    
-    container.appendChild(particle);
-}
-
-function createBurst() {
-    const container = document.getElementById('particles-container');
-    for (let i = 0; i < 15; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('particle');
-        
-        const size = Math.random() * 6 + 4;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        
-        // Start near center
-        particle.style.left = `calc(50vw + ${(Math.random() - 0.5) * 100}px)`;
-        particle.style.top = `calc(50vh + ${(Math.random() - 0.5) * 100}px)`;
-        
-        // Faster animation
-        particle.style.animationDuration = `${Math.random() * 3 + 2}s`;
-        
-        // Special color for burst
-        particle.style.background = `hsl(${Math.random() * 360}, 100%, 70%)`;
-        
-        container.appendChild(particle);
-        
-        // Remove after animation
-        setTimeout(() => {
-            if (container.contains(particle)) {
-                container.removeChild(particle);
-            }
-        }, 5000);
-    }
-}
