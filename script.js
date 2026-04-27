@@ -11,6 +11,7 @@ const searchInput = document.getElementById('breed-search');
 const sortSelect = document.getElementById('sort-select');
 const groupSelect = document.getElementById('group-select');
 const continentFilter = document.getElementById('continent-filter');
+const awardFilter = document.getElementById('award-filter');
 const colorFilter = document.getElementById('color-filter');
 const sidebar = document.getElementById('sidebar');
 
@@ -128,6 +129,10 @@ async function loadBreeds() {
                 allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.' });
             }
         });
+
+        const uniqueAwards = [...new Set(allBreeds.map(b => b.award))].filter(Boolean).sort();
+        awardFilter.innerHTML = '<option value="all">All Awards</option>' + uniqueAwards.map(a => `<option value="${a}">${a}</option>`).join('');
+
     } catch (error) {
         console.error('Error loading breeds:', error);
         allBreeds = featuredBreeds;
@@ -145,6 +150,7 @@ function parseRange(str) {
 function applyFilters() {
     const searchTerm = searchInput.value.toLowerCase();
     const selectedContinent = continentFilter.value;
+    const selectedAward = awardFilter.value;
     const selectedColor = colorFilter.value;
     const selectedSizes = Array.from(document.querySelectorAll('.size-filter:checked')).map(cb => cb.value);
     const selectedLifeRanges = Array.from(document.querySelectorAll('.life-filter:checked')).map(cb => cb.value);
@@ -163,7 +169,9 @@ function applyFilters() {
             if (selectedLifeRanges.includes('long') && breed.lifeNum > 15) matchesLife = true;
         }
 
-        return matchesSearch && matchesContinent && matchesColor && matchesSize && matchesLife;
+        const matchesAward = selectedAward === 'all' || breed.award === selectedAward;
+
+        return matchesSearch && matchesContinent && matchesColor && matchesSize && matchesLife && matchesAward;
     });
 
     sortBreeds();
@@ -322,6 +330,7 @@ function setupEventListeners() {
     sortSelect.addEventListener('change', applyFilters);
     groupSelect.addEventListener('change', applyFilters);
     continentFilter.addEventListener('change', applyFilters);
+    awardFilter.addEventListener('change', applyFilters);
     colorFilter.addEventListener('change', applyFilters);
     document.querySelectorAll('.size-filter').forEach(cb => cb.addEventListener('change', applyFilters));
     document.querySelectorAll('.life-filter').forEach(cb => cb.addEventListener('change', applyFilters));
