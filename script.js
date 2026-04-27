@@ -227,6 +227,9 @@ function renderCard(breed) {
             ${awardBadge}
             <div class="card-image">
                 <img src="${breed.image}" alt="${breed.name}" loading="lazy">
+                <button class="view-360-overlay">
+                    <i class="fas fa-cube"></i> 360 degrees view
+                </button>
             </div>
             <div class="card-info">
                 <h3>${breed.name}</h3>
@@ -347,7 +350,11 @@ function setupEventListeners() {
 function attachItemListeners(selector) {
     const items = displayContainer.querySelectorAll(selector);
     items.forEach(item => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.view-360-overlay')) {
+                open360Modal();
+                return;
+            }
             selectedBreedId = item.dataset.id;
             currentView = 'detail';
             renderCurrentView();
@@ -355,5 +362,26 @@ function attachItemListeners(selector) {
         });
     });
 }
+
+function open360Modal() {
+    const modal = document.getElementById('modal-360');
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+function close360Modal() {
+    const modal = document.getElementById('modal-360');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+// Add global listener for modal close button
+document.addEventListener('click', (e) => {
+    if (e.target.closest('#close-360-btn')) {
+        close360Modal();
+    }
+});
 
 init();
