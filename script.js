@@ -267,38 +267,41 @@ function renderDetail() {
                         <span class="stat-badge"><i class="fas fa-utensils"></i> ${breed.diet}</span>
                         <span class="stat-badge"><i class="fas fa-palette"></i> ${breed.color}</span>
                     </div>
-                    <div class="tabs">
-                        <button class="tab-btn active" data-tab="facts">Facts</button>
-                        <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
-                        <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
+                </div>
+            </div>
+            
+            <div class="details-bottom-section">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="facts">Facts</button>
+                    <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
+                    <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
+                </div>
+                <div class="tab-container">
+                    <div id="facts" class="tab-content active">
+                        <ul class="info-list">
+                            ${breed.facts.map(fact => `<li>${fact}</li>`).join('')}
+                            <li><strong>Abilities:</strong> ${breed.abilities.join(', ')}</li>
+                        </ul>
                     </div>
-                    <div class="tab-container">
-                        <div id="facts" class="tab-content active">
+                    <div id="personality" class="tab-content">
+                        <div class="personality-split">
+                            <div class="likes">
+                                <h4><i class="fas fa-heart"></i> Likes</h4>
+                                <ul>${breed.likes.map(l => `<li>${l}</li>`).join('')}</ul>
+                            </div>
+                            <div class="dislikes">
+                                <h4><i class="fas fa-thumbs-down"></i> Dislikes</h4>
+                                <ul>${breed.dislikes.map(d => `<li>${d}</li>`).join('')}</ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="caution" class="tab-content">
+                        <div class="caution-box">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>${breed.caution}</p>
                             <ul class="info-list">
-                                ${breed.facts.map(fact => `<li>${fact}</li>`).join('')}
-                                <li><strong>Abilities:</strong> ${breed.abilities.join(', ')}</li>
+                                ${breed.cons.map(con => `<li>${con}</li>`).join('')}
                             </ul>
-                        </div>
-                        <div id="personality" class="tab-content">
-                            <div class="personality-split">
-                                <div class="likes">
-                                    <h4><i class="fas fa-heart"></i> Likes</h4>
-                                    <ul>${breed.likes.map(l => `<li>${l}</li>`).join('')}</ul>
-                                </div>
-                                <div class="dislikes">
-                                    <h4><i class="fas fa-thumbs-down"></i> Dislikes</h4>
-                                    <ul>${breed.dislikes.map(d => `<li>${d}</li>`).join('')}</ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="caution" class="tab-content">
-                            <div class="caution-box">
-                                <i class="fas fa-exclamation-triangle"></i>
-                                <p>${breed.caution}</p>
-                                <ul class="info-list">
-                                    ${breed.cons.map(con => `<li>${con}</li>`).join('')}
-                                </ul>
-                            </div>
                         </div>
                     </div>
                 </div>
