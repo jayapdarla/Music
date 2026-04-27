@@ -22,17 +22,6 @@
             </div>
 
             <div class="filter-section">
-                <div class="filter-group">
-                    <label>Sort By</label>
-                    <select id="sort-select">
-                        <option value="name-asc">Name (A-Z)</option>
-                        <option value="price-desc">Price (Highest)</option>
-                        <option value="price-asc">Price (Lowest)</option>
-                        <option value="life-desc">Lifespan (Longest)</option>
-                        <option value="weight-desc">Weight (Heaviest)</option>
-                        <option value="height-desc">Height (Tallest)</option>
-                    </select>
-                </div>
 
                 <div class="filter-group">
                     <label>Group By</label>
@@ -122,8 +111,16 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="header">
-                <div class="view-controls">
-                    <!-- Carousel removed at user request -->
+                <div class="view-controls" style="display: flex; align-items: center; justify-content: flex-end; width: 100%; gap: 1rem; margin-bottom: 1rem;">
+                    <label style="color: #94a3b8; font-weight: 600;">Sort By</label>
+                    <select id="sort-select" style="padding: 0.5rem 1rem; border-radius: 12px; background: var(--glass-bg); border: 1px solid var(--glass-border); color: white; outline: none; cursor: pointer;">
+                        <option value="name-asc" style="color: black;">Name (A-Z)</option>
+                        <option value="price-desc" style="color: black;">Price (Highest)</option>
+                        <option value="price-asc" style="color: black;">Price (Lowest)</option>
+                        <option value="life-desc" style="color: black;">Lifespan (Longest)</option>
+                        <option value="weight-desc" style="color: black;">Weight (Heaviest)</option>
+                        <option value="height-desc" style="color: black;">Height (Tallest)</option>
+                    </select>
                 </div>
             </header>
 
