@@ -111,6 +111,7 @@ async function loadBreeds() {
             const award = awardWinners[breed.name] || (featured ? 'Multiple Performance Titles' : 'Breed Championship Lineage');
             const traitInfo = traitMapping[breed.breed_group] || traitMapping['Working'];
             const professions = professionsMap[breed.breed_group] || professionsMap['Mixed'];
+            const specialFeature = breed.bred_for ? `Special Feature: Master of ${breed.bred_for}` : `Special Feature: Exceptionally ${abilities[0] || 'devoted'}`;
 
             return {
                 id: breed.id.toString(),
@@ -132,6 +133,7 @@ async function loadBreeds() {
                 dislikes: traitInfo.dislikes,
                 caution: traitInfo.caution,
                 professions: professions,
+                specialFeature: specialFeature,
                 facts: featured ? featured.facts : [`Originally bred for: ${breed.bred_for || 'Companionship'}`, `Breed Group: ${breed.breed_group || 'Diverse'}`, `Origin: ${origin}`],
                 abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
                 cons: featured ? featured.cons : (challenges.length > 0 ? challenges : ['Needs regular exercise', 'Requires training'])
@@ -140,7 +142,7 @@ async function loadBreeds() {
 
         featuredBreeds.forEach(fb => {
             if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
-                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.', professions: ['Companion', 'Therapy Dog'] });
+                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.', professions: ['Companion', 'Therapy Dog'], specialFeature: 'Special Feature: World-class companion' });
             }
         });
 
@@ -283,6 +285,7 @@ function renderDetail() {
                 </div>
                 <div class="hero-content">
                     <h1>${breed.name}</h1>
+                    <div class="special-feature"><i class="fas fa-star"></i> ${breed.specialFeature}</div>
                     ${breed.award ? `<div class="detail-award"><i class="fas fa-trophy"></i> ${breed.award}</div>` : ''}
                     <div class="stats-grid">
                         <span class="stat-badge"><i class="fas fa-history"></i> ${breed.lifespan}</span>

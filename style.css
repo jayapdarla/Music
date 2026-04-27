@@ -532,15 +532,30 @@ body {
 .detail-award {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.6rem 1.25rem;
-    background: rgba(234, 179, 8, 0.15);
-    color: #eab308;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(234, 179, 8, 0.05));
     border: 1px solid rgba(234, 179, 8, 0.3);
-    border-radius: 30px;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
+    color: #fef08a;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
     font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.special-feature {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(168, 85, 247, 0.05));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #e9d5ff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    margin-right: 0.5rem;
 }
 
 .personality-split {
