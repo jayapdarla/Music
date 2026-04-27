@@ -352,7 +352,8 @@ function attachItemListeners(selector) {
     items.forEach(item => {
         item.addEventListener('click', (e) => {
             if (e.target.closest('.view-360-overlay')) {
-                open360Modal();
+                const img = item.querySelector('.card-image img').src;
+                open360Modal(img);
                 return;
             }
             selectedBreedId = item.dataset.id;
@@ -363,9 +364,11 @@ function attachItemListeners(selector) {
     });
 }
 
-function open360Modal() {
+function open360Modal(imageSrc) {
     const modal = document.getElementById('modal-360');
-    if (modal) {
+    const spinImage = document.getElementById('spin-image');
+    if (modal && spinImage) {
+        spinImage.src = imageSrc;
         modal.classList.add('active');
     }
 }
