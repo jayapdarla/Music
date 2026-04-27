@@ -12,6 +12,8 @@ const sortSelect = document.getElementById('sort-select');
 const groupSelect = document.getElementById('group-select');
 const continentFilter = document.getElementById('continent-filter');
 const awardFilter = document.getElementById('award-filter');
+const ratingFilter = document.getElementById('rating-filter');
+const rankFilter = document.getElementById('rank-filter');
 const colorFilter = document.getElementById('color-filter');
 const sidebar = document.getElementById('sidebar');
 
@@ -178,6 +180,8 @@ function applyFilters() {
     const searchTerm = searchInput.value.toLowerCase();
     const selectedContinent = continentFilter.value;
     const selectedAward = awardFilter.value;
+    const selectedRating = ratingFilter.value;
+    const selectedRank = rankFilter.value;
     const selectedColor = colorFilter.value;
     const selectedSizes = Array.from(document.querySelectorAll('.size-filter:checked')).map(cb => cb.value);
     const selectedLifeRanges = Array.from(document.querySelectorAll('.life-filter:checked')).map(cb => cb.value);
@@ -197,8 +201,11 @@ function applyFilters() {
         }
 
         const matchesAward = selectedAward === 'all' || breed.award === selectedAward;
+        
+        const matchesRating = selectedRating === 'all' || parseFloat(breed.rating) >= parseFloat(selectedRating);
+        const matchesRank = selectedRank === 'all' || breed.globalRank <= parseInt(selectedRank);
 
-        return matchesSearch && matchesContinent && matchesColor && matchesSize && matchesLife && matchesAward;
+        return matchesSearch && matchesContinent && matchesColor && matchesSize && matchesLife && matchesAward && matchesRating && matchesRank;
     });
 
     sortBreeds();
@@ -415,6 +422,8 @@ function setupEventListeners() {
     groupSelect.addEventListener('change', applyFilters);
     continentFilter.addEventListener('change', applyFilters);
     awardFilter.addEventListener('change', applyFilters);
+    ratingFilter.addEventListener('change', applyFilters);
+    rankFilter.addEventListener('change', applyFilters);
     colorFilter.addEventListener('change', applyFilters);
     document.querySelectorAll('.size-filter').forEach(cb => cb.addEventListener('change', applyFilters));
     document.querySelectorAll('.life-filter').forEach(cb => cb.addEventListener('change', applyFilters));
