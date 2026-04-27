@@ -550,7 +550,7 @@ body {
     margin-top: 1rem;
 }
 
-.personality-split h4, .professions-list h4 {
+.personality-split h4, .professions-list h4, .compatibility-list h4 {
     display: flex;
     align-items: center;
     gap: 0.5rem;

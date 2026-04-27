@@ -262,6 +262,16 @@ function renderDetail() {
     const breed = allBreeds.find(b => b.id === selectedBreedId);
     if (!breed) return;
 
+    // Generate compatible dogs (same size, up to 5)
+    let compatibleDogs = allBreeds
+        .filter(b => b.id !== breed.id && b.size === breed.size)
+        .slice(0, 5)
+        .map(b => b.name);
+        
+    if (compatibleDogs.length === 0) {
+        compatibleDogs = ['Golden Retriever', 'Labrador Retriever', 'Poodle']; // Friendly fallbacks
+    }
+
     displayContainer.innerHTML = `
         <div class="detail-view">
             <button class="back-btn" id="back-to-list">
@@ -289,6 +299,7 @@ function renderDetail() {
                     <button class="tab-btn active" data-tab="facts">Facts</button>
                     <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
                     <button class="tab-btn" data-tab="professions">Suits Profession</button>
+                    <button class="tab-btn" data-tab="compatibility">Compatibility</button>
                     <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
                 </div>
                 <div class="tab-container">
@@ -310,20 +321,29 @@ function renderDetail() {
                             </div>
                         </div>
                     </div>
+                    <div id="professions" class="tab-content">
+                        <div class="professions-list">
+                            <h4><i class="fas fa-briefcase"></i> Ideal Professions for ${breed.name}</h4>
+                            <ul class="info-list">
+                                ${breed.professions.map(prof => `<li>${prof}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="compatibility" class="tab-content">
+                        <div class="compatibility-list">
+                            <h4><i class="fas fa-paw"></i> Compatible Breeds</h4>
+                            <p style="margin-bottom: 1rem; color: #94a3b8;">Dogs of similar size and temperament that generally get along well with the ${breed.name}:</p>
+                            <ul class="info-list">
+                                ${compatibleDogs.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
                     <div id="caution" class="tab-content">
                         <div class="caution-box">
                             <i class="fas fa-exclamation-triangle"></i>
                             <p>${breed.caution}</p>
                             <ul class="info-list">
                                 ${breed.cons.map(con => `<li>${con}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                    <div id="professions" class="tab-content">
-                        <div class="professions-list">
-                            <h4><i class="fas fa-briefcase"></i> Ideal Professions for ${breed.name}</h4>
-                            <ul class="info-list">
-                                ${breed.professions.map(prof => `<li>${prof}</li>`).join('')}
                             </ul>
                         </div>
                     </div>
