@@ -111,7 +111,14 @@ async function loadBreeds() {
             const award = awardWinners[breed.name] || (featured ? 'Multiple Performance Titles' : 'Breed Championship Lineage');
             const traitInfo = traitMapping[breed.breed_group] || traitMapping['Working'];
             const professions = professionsMap[breed.breed_group] || professionsMap['Mixed'];
-            const specialFeature = breed.bred_for ? `Special Feature: Master of ${breed.bred_for}` : `Special Feature: Exceptionally ${abilities[0] || 'devoted'}`;
+            
+            // Deterministic random-like values based on ID
+            const numericId = parseInt(breed.id) || Math.floor(Math.random() * 1000);
+            const globalRank = (numericId % 150) + 1;
+            const rating = (4.0 + (numericId % 11) / 10).toFixed(1);
+            const reviewCount = (numericId * 7) % 5000 + 150;
+            
+            const intro = `The ${breed.name || 'dog'} is a ${size.toLowerCase()} breed originating from ${origin}. Known for being ${abilities.slice(0, 2).join(' and ') || 'loyal'}, they make an excellent ${professions[0].toLowerCase()}.`;
 
             return {
                 id: breed.id.toString(),
@@ -133,7 +140,10 @@ async function loadBreeds() {
                 dislikes: traitInfo.dislikes,
                 caution: traitInfo.caution,
                 professions: professions,
-                specialFeature: specialFeature,
+                globalRank: globalRank,
+                intro: intro,
+                rating: rating,
+                reviewCount: reviewCount,
                 facts: featured ? featured.facts : [`Originally bred for: ${breed.bred_for || 'Companionship'}`, `Breed Group: ${breed.breed_group || 'Diverse'}`, `Origin: ${origin}`],
                 abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
                 cons: featured ? featured.cons : (challenges.length > 0 ? challenges : ['Needs regular exercise', 'Requires training'])
@@ -142,7 +152,8 @@ async function loadBreeds() {
 
         featuredBreeds.forEach(fb => {
             if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
-                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.', professions: ['Companion', 'Therapy Dog'], specialFeature: 'Special Feature: World-class companion' });
+                const numericId = Math.floor(Math.random() * 1000);
+                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.', professions: ['Companion', 'Therapy Dog'], globalRank: (numericId % 150) + 1, intro: `The ${fb.name} is a versatile and popular breed.`, rating: '4.8', reviewCount: 1245 });
             }
         });
 
@@ -285,8 +296,9 @@ function renderDetail() {
                 </div>
                 <div class="hero-content">
                     <h1>${breed.name}</h1>
-                    <div class="special-feature"><i class="fas fa-star"></i> ${breed.specialFeature}</div>
+                    <div class="special-feature"><i class="fas fa-globe"></i> Global Rank: #${breed.globalRank}</div>
                     ${breed.award ? `<div class="detail-award"><i class="fas fa-trophy"></i> ${breed.award}</div>` : ''}
+                    <p class="breed-intro">${breed.intro}</p>
                     <div class="stats-grid">
                         <span class="stat-badge"><i class="fas fa-history"></i> ${breed.lifespan}</span>
                         <span class="stat-badge"><i class="fas fa-globe"></i> ${breed.continent}</span>
@@ -303,6 +315,7 @@ function renderDetail() {
                     <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
                     <button class="tab-btn" data-tab="professions">Suits Profession</button>
                     <button class="tab-btn" data-tab="compatibility">Compatibility</button>
+                    <button class="tab-btn" data-tab="rating">User Rating</button>
                     <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
                 </div>
                 <div class="tab-container">
@@ -339,6 +352,28 @@ function renderDetail() {
                             <ul class="info-list">
                                 ${compatibleDogs.map(c => `<li>${c}</li>`).join('')}
                             </ul>
+                        </div>
+                    </div>
+                    <div id="rating" class="tab-content">
+                        <div class="rating-container">
+                            <div class="rating-score">
+                                <h2>${breed.rating}</h2>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="${breed.rating >= 4.5 ? 'fas' : 'fas'} fa-star-half-alt"></i>
+                                </div>
+                                <p>Based on ${breed.reviewCount.toLocaleString()} user reviews</p>
+                            </div>
+                            <div class="rating-bars">
+                                <div class="rating-bar"><span class="label">5 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 75%"></div></div><span class="pct">75%</span></div>
+                                <div class="rating-bar"><span class="label">4 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 20%"></div></div><span class="pct">20%</span></div>
+                                <div class="rating-bar"><span class="label">3 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 3%"></div></div><span class="pct">3%</span></div>
+                                <div class="rating-bar"><span class="label">2 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+                                <div class="rating-bar"><span class="label">1 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+                            </div>
                         </div>
                     </div>
                     <div id="caution" class="tab-content">
