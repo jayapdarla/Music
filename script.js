@@ -288,8 +288,8 @@ function renderDetail() {
                 <div class="tabs">
                     <button class="tab-btn active" data-tab="facts">Facts</button>
                     <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
-                    <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
                     <button class="tab-btn" data-tab="professions">Suits Profession</button>
+                    <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
                 </div>
                 <div class="tab-container">
                     <div id="facts" class="tab-content active">
