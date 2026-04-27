@@ -55,6 +55,18 @@ const breedColorMap = {
     'Great Dane': 'grey', 'Doberman Pinscher': 'black', 'Boxer': 'brown', 'Shih Tzu': 'white', 'Pug': 'tan'
 };
 
+const professionsMap = {
+    'Hound': ['Search and Rescue', 'Detective (Scent Tracking)', 'Hunter', 'Customs Agent'],
+    'Retrieving': ['Guide Dog', 'Search and Rescue', 'Hunter', 'Therapy Dog', 'Athlete'],
+    'Sporting': ['Guide Dog', 'Search and Rescue', 'Hunter', 'Therapy Dog', 'Athlete'],
+    'Terrier': ['Exterminator (Pest Control)', 'Farmer', 'Security/Watchdog', 'Athlete (Agility)'],
+    'Working': ['Police Officer', 'Security Guard', 'Military Dog', 'Search and Rescue', 'Farmer (Guarding)'],
+    'Toy': ['Therapy Dog', 'Companion', 'Elderly Caregiver', 'Work-from-Home Assistant'],
+    'Herding': ['Farmer (Herding)', 'Shepherd', 'Active Outdoor Guide', 'Search and Rescue'],
+    'Non-Sporting': ['Therapy Dog', 'Companion', 'Performer/Actor'],
+    'Mixed': ['Therapy Dog', 'Companion', 'Search and Rescue']
+};
+
 // Initialize
 async function init() {
     await loadBreeds();
@@ -98,6 +110,7 @@ async function loadBreeds() {
 
             const award = awardWinners[breed.name] || (featured ? 'Multiple Performance Titles' : 'Breed Championship Lineage');
             const traitInfo = traitMapping[breed.breed_group] || traitMapping['Working'];
+            const professions = professionsMap[breed.breed_group] || professionsMap['Mixed'];
 
             return {
                 id: breed.id.toString(),
@@ -118,6 +131,7 @@ async function loadBreeds() {
                 likes: traitInfo.likes,
                 dislikes: traitInfo.dislikes,
                 caution: traitInfo.caution,
+                professions: professions,
                 facts: featured ? featured.facts : [`Originally bred for: ${breed.bred_for || 'Companionship'}`, `Breed Group: ${breed.breed_group || 'Diverse'}`, `Origin: ${origin}`],
                 abilities: featured ? featured.abilities : (abilities.length > 0 ? abilities : ['Alert', 'Intelligent']),
                 cons: featured ? featured.cons : (challenges.length > 0 ? challenges : ['Needs regular exercise', 'Requires training'])
@@ -126,7 +140,7 @@ async function loadBreeds() {
 
         featuredBreeds.forEach(fb => {
             if (!allBreeds.find(b => b.name.toLowerCase() === fb.name.toLowerCase())) {
-                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.' });
+                allBreeds.push({ ...fb, id: `featured-${fb.id}`, lifeNum: 12, weightNum: 25, heightNum: 50, continent: 'Europe', size: 'Medium', diet: 'Standard Balanced', price: '$1,500', priceNum: 1500, color: 'tan', award: 'Featured Breed', likes: ['Play', 'Family'], dislikes: ['Isolation'], caution: 'General breed care required.', professions: ['Companion', 'Therapy Dog'] });
             }
         });
 
@@ -275,6 +289,7 @@ function renderDetail() {
                     <button class="tab-btn active" data-tab="facts">Facts</button>
                     <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
                     <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
+                    <button class="tab-btn" data-tab="professions">Suits Profession</button>
                 </div>
                 <div class="tab-container">
                     <div id="facts" class="tab-content active">
@@ -301,6 +316,14 @@ function renderDetail() {
                             <p>${breed.caution}</p>
                             <ul class="info-list">
                                 ${breed.cons.map(con => `<li>${con}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    <div id="professions" class="tab-content">
+                        <div class="professions-list">
+                            <h4><i class="fas fa-briefcase"></i> Ideal Professions for ${breed.name}</h4>
+                            <ul class="info-list">
+                                ${breed.professions.map(prof => `<li>${prof}</li>`).join('')}
                             </ul>
                         </div>
                     </div>
