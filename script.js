@@ -72,11 +72,27 @@ const professionsMap = {
 // Initialize
 async function init() {
     await loadBreeds();
+    initCarousel();
     applyFilters();
     setupEventListeners();
 }
 
-async function loadBreeds() {
+function initCarousel() {
+    const carouselTrack = document.getElementById('carousel-track');
+    if (!carouselTrack) return;
+    // Use first 10 breeds for carousel
+    const items = allBreeds.slice(0, 10);
+    carouselTrack.innerHTML = items.map(b => `<img class="carousel-item" src="${b.image}" alt="${b.name}" loading="lazy">`).join('');
+    // Auto-scroll by moving first child to the end every few seconds
+    setInterval(() => {
+        const first = carouselTrack.firstElementChild;
+        if (first) {
+            carouselTrack.appendChild(first.cloneNode(true));
+            carouselTrack.removeChild(first);
+        }
+    }, 3000);
+}
+
     try {
         const response = await fetch('breeds_raw.json');
         const rawData = await response.json();

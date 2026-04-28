@@ -566,19 +566,33 @@ body {
     margin-bottom: 1.5rem;
 }
 
-.special-feature {
-    display: inline-flex;
+/* Film Carousel Styles */
+
+
+.carousel-track {
+    display: flex;
+    gap: 1rem;
     align-items: center;
-    gap: 0.5rem;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(168, 85, 247, 0.05));
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    color: #e9d5ff;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    margin-right: 0.5rem;
+    transition: transform 0.5s ease;
+}
+
+.carousel-item {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .carousel-item {
+        width: 90px;
+        height: 60px;
+    }
+}
+    
 }
 
 .breed-intro {
