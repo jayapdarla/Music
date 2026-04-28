@@ -480,53 +480,76 @@ body {
     margin-top: 1rem;
 }
 
-/* Tabs */
-.tabs {
+/* Accordion Styles */
+.accordion {
     display: flex;
-    gap: 2rem;
-    border-bottom: 1px solid var(--glass-border);
-    margin-bottom: 2rem;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.tab-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    padding: 1rem 0;
-    cursor: pointer;
-    font-weight: 600;
-    position: relative;
+.accordion-item {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    overflow: hidden;
     transition: var(--transition);
 }
 
-.tab-btn:hover {
+.accordion-header {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    padding: 1.25rem 1.5rem;
     color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: var(--transition);
 }
 
-.tab-btn.active {
+.accordion-header i {
+    transition: transform 0.3s ease;
+    color: var(--text-secondary);
+}
+
+.accordion-item.active .accordion-header {
+    background: rgba(255, 255, 255, 0.02);
     color: var(--accent-color);
 }
 
-.tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--accent-color);
+.accordion-item.active .accordion-header i {
+    transform: rotate(180deg);
+    color: var(--accent-color);
 }
 
-.tab-btn.danger {
+.accordion-content {
+    max-height: 0;
+    opacity: 0;
+    padding: 0 1.5rem;
+    overflow: hidden;
+    transition: all 0.4s ease-in-out;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 2000px; /* arbitrary large value */
+    opacity: 1;
+    padding: 1.5rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.danger-header {
+    color: #ef4444 !important;
+}
+
+.accordion-item.active .danger-header {
+    background: rgba(239, 68, 68, 0.05);
+}
+.accordion-item.active .danger-header i {
     color: #ef4444;
-}
-
-.tab-btn.danger.active {
-    color: #ef4444;
-}
-
-.tab-btn.danger.active::after {
-    background: #ef4444;
 }
 
 .detail-award {
@@ -625,15 +648,6 @@ body {
     }
 }
 
-.tab-content {
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.tab-content.active {
-    display: block;
-}
-
 .info-list {
     list-style: none;
 }
@@ -695,14 +709,69 @@ body {
     }
 }
 
-/* User Rating Styles */
+/* User Rating Popover Styles */
+.rating-popover-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.rating-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.rating-summary:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rating-summary .stars {
+    color: #eab308;
+    font-weight: bold;
+}
+
+.rating-summary .reviews {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rating-popover {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: 350px;
+    background: var(--bg-dark);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.rating-popover.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 .rating-container {
     display: flex;
-    gap: 3rem;
-    align-items: center;
-    padding: 2rem;
-    background: rgba(0,0,0,0.2);
-    border-radius: 16px;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .rating-score {
@@ -710,7 +779,7 @@ body {
 }
 
 .rating-score h2 {
-    font-size: 4rem;
+    font-size: 3.5rem;
     color: var(--accent-color);
     margin: 0;
     line-height: 1;
@@ -718,7 +787,7 @@ body {
 
 .rating-score .stars {
     color: #eab308;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     margin: 0.5rem 0;
 }
 
@@ -728,7 +797,6 @@ body {
 }
 
 .rating-bars {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;

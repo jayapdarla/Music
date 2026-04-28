@@ -306,6 +306,36 @@ function renderDetail() {
                     <div class="special-feature"><i class="fas fa-globe"></i> Global Rank: #${breed.globalRank}</div>
                     ${breed.award ? `<div class="detail-award"><i class="fas fa-trophy"></i> ${breed.award}</div>` : ''}
                     <p class="breed-intro">${breed.intro}</p>
+                    
+                    <div class="rating-popover-container">
+                        <div class="rating-summary" id="rating-trigger">
+                            <span class="stars"><i class="fas fa-star"></i> ${breed.rating}</span>
+                            <span class="reviews">(${breed.reviewCount.toLocaleString()} reviews) <i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="rating-popover" id="rating-popover">
+                            <div class="rating-container">
+                                <div class="rating-score">
+                                    <h2>${breed.rating}</h2>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="${breed.rating >= 4.5 ? 'fas' : 'fas'} fa-star-half-alt"></i>
+                                    </div>
+                                    <p>Based on ${breed.reviewCount.toLocaleString()} reviews</p>
+                                </div>
+                                <div class="rating-bars">
+                                    <div class="rating-bar"><span class="label">5 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 75%"></div></div><span class="pct">75%</span></div>
+                                    <div class="rating-bar"><span class="label">4 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 20%"></div></div><span class="pct">20%</span></div>
+                                    <div class="rating-bar"><span class="label">3 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 3%"></div></div><span class="pct">3%</span></div>
+                                    <div class="rating-bar"><span class="label">2 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+                                    <div class="rating-bar"><span class="label">1 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="stats-grid">
                         <span class="stat-badge"><i class="fas fa-history"></i> ${breed.lifespan}</span>
                         <span class="stat-badge"><i class="fas fa-globe"></i> ${breed.continent}</span>
@@ -317,79 +347,64 @@ function renderDetail() {
             </div>
             
             <div class="details-bottom-section">
-                <div class="tabs">
-                    <button class="tab-btn active" data-tab="facts">Facts</button>
-                    <button class="tab-btn" data-tab="personality">Likes & Dislikes</button>
-                    <button class="tab-btn" data-tab="professions">Suits Profession</button>
-                    <button class="tab-btn" data-tab="compatibility">Compatibility</button>
-                    <button class="tab-btn" data-tab="rating">User Rating</button>
-                    <button class="tab-btn danger" data-tab="caution">Buyer's Caution</button>
-                </div>
-                <div class="tab-container">
-                    <div id="facts" class="tab-content active">
-                        <ul class="info-list">
-                            ${breed.facts.map(fact => `<li>${fact}</li>`).join('')}
-                            <li><strong>Abilities:</strong> ${breed.abilities.join(', ')}</li>
-                        </ul>
-                    </div>
-                    <div id="personality" class="tab-content">
-                        <div class="personality-split">
-                            <div class="likes">
-                                <h4><i class="fas fa-heart"></i> Likes</h4>
-                                <ul>${breed.likes.map(l => `<li>${l}</li>`).join('')}</ul>
-                            </div>
-                            <div class="dislikes">
-                                <h4><i class="fas fa-thumbs-down"></i> Dislikes</h4>
-                                <ul>${breed.dislikes.map(d => `<li>${d}</li>`).join('')}</ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="professions" class="tab-content">
-                        <div class="professions-list">
-                            <h4><i class="fas fa-briefcase"></i> Ideal Professions for ${breed.name}</h4>
+                <div class="accordion">
+                    <div class="accordion-item active">
+                        <button class="accordion-header">Facts <i class="fas fa-chevron-down"></i></button>
+                        <div class="accordion-content">
                             <ul class="info-list">
-                                ${breed.professions.map(prof => `<li>${prof}</li>`).join('')}
+                                ${breed.facts.map(fact => `<li>${fact}</li>`).join('')}
+                                <li><strong>Abilities:</strong> ${breed.abilities.join(', ')}</li>
                             </ul>
                         </div>
                     </div>
-                    <div id="compatibility" class="tab-content">
-                        <div class="compatibility-list">
-                            <h4><i class="fas fa-paw"></i> Compatible Breeds</h4>
-                            <p style="margin-bottom: 1rem; color: #94a3b8;">Dogs of similar size and temperament that generally get along well with the ${breed.name}:</p>
-                            <ul class="info-list">
-                                ${compatibleDogs.map(c => `<li>${c}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                    <div id="rating" class="tab-content">
-                        <div class="rating-container">
-                            <div class="rating-score">
-                                <h2>${breed.rating}</h2>
-                                <div class="stars">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="${breed.rating >= 4.5 ? 'fas' : 'fas'} fa-star-half-alt"></i>
+                    <div class="accordion-item">
+                        <button class="accordion-header">Likes & Dislikes <i class="fas fa-chevron-down"></i></button>
+                        <div class="accordion-content">
+                            <div class="personality-split">
+                                <div class="likes">
+                                    <h4><i class="fas fa-heart"></i> Likes</h4>
+                                    <ul>${breed.likes.map(l => `<li>${l}</li>`).join('')}</ul>
                                 </div>
-                                <p>Based on ${breed.reviewCount.toLocaleString()} user reviews</p>
-                            </div>
-                            <div class="rating-bars">
-                                <div class="rating-bar"><span class="label">5 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 75%"></div></div><span class="pct">75%</span></div>
-                                <div class="rating-bar"><span class="label">4 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 20%"></div></div><span class="pct">20%</span></div>
-                                <div class="rating-bar"><span class="label">3 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 3%"></div></div><span class="pct">3%</span></div>
-                                <div class="rating-bar"><span class="label">2 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
-                                <div class="rating-bar"><span class="label">1 <i class="fas fa-star"></i></span><div class="bar"><div class="fill" style="width: 1%"></div></div><span class="pct">1%</span></div>
+                                <div class="dislikes">
+                                    <h4><i class="fas fa-thumbs-down"></i> Dislikes</h4>
+                                    <ul>${breed.dislikes.map(d => `<li>${d}</li>`).join('')}</ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div id="caution" class="tab-content">
-                        <div class="caution-box">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p>${breed.caution}</p>
-                            <ul class="info-list">
-                                ${breed.cons.map(con => `<li>${con}</li>`).join('')}
-                            </ul>
+                    <div class="accordion-item">
+                        <button class="accordion-header">Suits Profession <i class="fas fa-chevron-down"></i></button>
+                        <div class="accordion-content">
+                            <div class="professions-list">
+                                <h4><i class="fas fa-briefcase"></i> Ideal Professions</h4>
+                                <ul class="info-list">
+                                    ${breed.professions.map(prof => `<li>${prof}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header">Compatibility <i class="fas fa-chevron-down"></i></button>
+                        <div class="accordion-content">
+                            <div class="compatibility-list">
+                                <h4><i class="fas fa-paw"></i> Compatible Breeds</h4>
+                                <p style="margin-bottom: 1rem; color: #94a3b8;">Dogs of similar size and temperament that generally get along well with the ${breed.name}:</p>
+                                <ul class="info-list">
+                                    ${compatibleDogs.map(c => `<li>${c}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <button class="accordion-header danger-header">Buyer's Caution <i class="fas fa-exclamation-triangle"></i></button>
+                        <div class="accordion-content">
+                            <div class="caution-box">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <p>${breed.caution}</p>
+                                <ul class="info-list">
+                                    ${breed.cons.map(con => `<li>${con}</li>`).join('')}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -402,17 +417,33 @@ function renderDetail() {
         renderCurrentView();
     });
 
-    const tabBtns = displayContainer.querySelectorAll('.tab-btn');
-    const tabContents = displayContainer.querySelectorAll('.tab-content');
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById(btn.dataset.tab).classList.add('active');
+    const accordionHeaders = displayContainer.querySelectorAll('.accordion-header');
+    accordionHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const item = header.parentElement;
+            // Toggle current item
+            item.classList.toggle('active');
         });
     });
+
+    const ratingTrigger = displayContainer.querySelector('#rating-trigger');
+    const ratingPopover = displayContainer.querySelector('#rating-popover');
+    
+    if(ratingTrigger && ratingPopover) {
+        ratingTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            ratingPopover.classList.toggle('show');
+        });
+        
+        // close when clicking outside
+        const closePopover = (e) => {
+            if(!ratingTrigger.contains(e.target) && !ratingPopover.contains(e.target)) {
+                ratingPopover.classList.remove('show');
+                document.removeEventListener('click', closePopover);
+            }
+        };
+        document.addEventListener('click', closePopover);
+    }
 }
 
 // Event Listeners
